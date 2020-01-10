@@ -40,7 +40,12 @@ int main(void) {
 	} 
         
 	
-	PORTC = cntavail;
+	if (cntavail == 0x00) {
+		PORTC = cntavail | 0x80;
+	} else {
+		PORTC = cntavail;
+	}
+
 	cntavail = 0x00;
     }
     return 1;
