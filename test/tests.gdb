@@ -41,40 +41,75 @@ echo Running all tests..."\n\n
 
 
 # Add tests below
-test "weight = 0, D: 0x00, B0 = 0 => B2B1 = 00, B = 0x00"
-setPIND 0x00
-setPINB 0x00
+test "PINA: 0x00 => PORTB: 0x01, state = waitA0"
+setPINA 0x00
 continue 5
-expectPORTB 0x00
+expectPORTB 0x01
+expect state waitA0
 checkResult
 
-test "weight = 6, D: 0x03, B0 = 0 => B2B1 = 10, B = 0x04"
-setPIND 0x03
-setPINB 0x00
-continue 5
-expectPORTB 0x04
-checkResult
-
-test "weight = 69, D: 0x22, B0 = 1 => B2B1 = 10, B = 0x04"
-setPIND 0x22
-setPINB 0x01
-continue 5
-expectPORTB 0x04
-checkResult
-
-test "weight = 70, D: 0x23, B0 = 0 => B2B1 = 01, B = 0x02"
-setPIND 0x23
-setPINB 0x00
+test "PINA: 0x01 => PORTB: 0x02, state = waitrelease"
+setPINA 0x01
 continue 5
 expectPORTB 0x02
+expect state waitrelease
 checkResult
 
-test "weight = 75, D: 0x25, B0 = 1 => B2B1 = 01, B = 0x02"
-setPIND 0x25
-setPINB 0x01
-continue 5
+test "PINA: 0x01, 0x00 => PORTB: 0x02, state = waitA0"
+setPINA 0x01
+continue 2
+setPINA 0x00
+continue 2
 expectPORTB 0x02
+expect state waitA0
 checkResult
+
+test "PINA: 0x01, 0x00 => PORTB: 0x02, state = waitA0"
+setPINA 0x01
+continue 2
+setPINA 0x00
+continue 2
+expectPORTB 0x02
+expect state waitA0
+checkResult
+
+test "PINA: 0x01, 0x00 => PORTB: 0x02, state = waitA0"
+setPINA 0x01
+continue 2
+setPINA 0x00
+continue 2
+expectPORTB 0x02
+expect state waitA0
+checkResult
+
+test "PINA: 0x01, 0x00 => PORTB: 0x02, state = waitA0"
+setPINA 0x01
+continue 2
+setPINA 0x00
+continue 2
+expectPORTB 0x02
+expect state waitA0
+checkResult
+
+test "PINA: 0x01, 0x00 => PORTB: 0x02, state = waitA0"
+setPINA 0x01
+continue 2
+setPINA 0x00
+continue 2
+expectPORTB 0x02
+expect state waitA0
+checkResult
+
+test "PINA: 0x01, 0x00 => PORTB: 0x02, state = waitA0"
+setPINA 0x01
+continue 2
+setPINA 0x00
+continue 2
+expectPORTB 0x02
+expect state waitA0
+checkResult
+
+
 
 
 # Report on how many tests passed/tests ran

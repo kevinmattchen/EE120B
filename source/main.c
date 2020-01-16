@@ -12,27 +12,76 @@
 #include "simAVRHeader.h"
 #endif
 
+	enum States {start, waitA0, flip, waitrelease} state;
+
+    void tick() {
+	switch(state) {
+	    case start:
+		state = waitA0;
+	    break;
+	
+	    case waitA0:
+		if (PINA & 0x01) {
+		    state = flip;
+		} else {
+		    state = waitA0;
+		}
+	    break;
+
+	    case flip:
+		if (PINA & 0x01) {
+		    state = waitrelease;
+		} else {
+		    state = waitA0;
+		}
+	    break;
+
+	    case waitrelease:
+		if (!PINA & 0x01) {
+		    state = waitA0;
+		} else {
+		    state = waitrelease;
+		}
+	    break;
+
+	    default:
+		state = start;
+	    break;
+	}
+
+	switch(state) {
+	    case start:
+		PORTB = 0x01;
+	    break;
+
+	    case waitA0:
+	    break;
+
+	    case flip:
+		PORTB = ~PORTB & 0x03;
+	    break;
+
+	    case waitrelease:
+	    break;
+	
+	    default: 
+		PORTB = 0x01;
+	    break;
+	}
+    }
+
+
 int main(void) {
     /* Insert DDR and PORT initializations */
-	DDRD = 0x00; PORTD = 0x00;
-	DDRB = 0xFE; PORTB = 0x00;
-
-	unsigned short weight = 0x00;
-	unsigned char temp = 0x00;   
+	DDRA = 0x00; PORTA = 0x00;
+	DDRB = 0xFF; PORTB = 0x00;
     /* Insert your solution below */
-    while (1) {
-	weight = (PINB & 0X01) + (PIND << 1);
-
-	if (weight >= 70) {
-	    temp = 0x02;
-	} else if (weight > 5) {
-	    temp = 0x04;
-	} else {
-	    temp = 0x00;
-	}
 	
-	PORTB = (PORTB & 0x01) | (temp & 0xFE);
-	temp = 0x00;
+	PORTB = 0x01;
+	state = start;
+
+    while (1) {
+	tick();	
     }
     return 1;
 }
