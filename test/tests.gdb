@@ -41,73 +41,137 @@ echo Running all tests..."\n\n
 
 
 # Add tests below
-test "PINA: 0x00 => PORTB: 0x01, state = waitA0"
+test "PINA: 0x00 => PORTC: 7, state = wait"
 setPINA 0x00
 continue 5
-expectPORTB 0x01
-expect state waitA0
+expectPORTC 0x07
+expect state wait
 checkResult
 
-test "PINA: 0x01 => PORTB: 0x02, state = waitrelease"
+test "PINA: 0x00, 0x01 => PORTC: 8, state = inc"
+setPINA 0x00
+continue 5
 setPINA 0x01
 continue 5
-expectPORTB 0x02
-expect state waitrelease
+expectPORTC 0x08
+expect state inc
 checkResult
 
-test "PINA: 0x01, 0x00 => PORTB: 0x02, state = waitA0"
-setPINA 0x01
-continue 2
+test "PINA: 0x00, 0x01 (without state = start) => PORTC: 8, state = inc"
 setPINA 0x00
-continue 2
-expectPORTB 0x02
-expect state waitA0
+continue 5
+setPINA 0x01
+continue 5
+expectPORTC 0x08
+expect state inc
 checkResult
 
-test "PINA: 0x01, 0x00 => PORTB: 0x02, state = waitA0"
-setPINA 0x01
-continue 2
+test "PINA: 0x00, 0x01 (with state = start) => PORTC: 8, state = inc"
+set state = start
 setPINA 0x00
-continue 2
-expectPORTB 0x02
-expect state waitA0
+continue 5
+setPINA 0x01
+continue 5
+expectPORTC 0x08
+expect state inc
 checkResult
 
-test "PINA: 0x01, 0x00 => PORTB: 0x02, state = waitA0"
-setPINA 0x01
-continue 2
+
+test "PINA: 0x00, 0x01, 0x00, 0x01, 0x00 => PORTC: 9, state = wait"
 setPINA 0x00
-continue 2
-expectPORTB 0x02
-expect state waitA0
+continue 5
+setPINA 0x01
+continue 5
+setPINA 0x00
+continue 5
+setPINA 0x01
+continue 5
+setPINA 0x00
+continue 5
+expectPORTC 0x09
+expect state wait
 checkResult
 
-test "PINA: 0x01, 0x00 => PORTB: 0x02, state = waitA0"
-setPINA 0x01
-continue 2
+test "PINA: 0x00, 0x01, 0x00, 0x01, 0x00, 0x01 => PORTC: 9, state = inc"
 setPINA 0x00
-continue 2
-expectPORTB 0x02
-expect state waitA0
+continue 5
+setPINA 0x01
+continue 5
+setPINA 0x00
+continue 5
+setPINA 0x01
+continue 5
+setPINA 0x00
+continue 5
+setPINA 0x01
+continue 5
+expectPORTC 0x09
+expect state inc
 checkResult
 
-test "PINA: 0x01, 0x00 => PORTB: 0x02, state = waitA0"
-setPINA 0x01
-continue 2
+test "PINA: 0x00, 0x02, 0x00, 0x02, 0x00, 0x02, 0x00, 0x02, 0x00, 0x02, 0x00, 0x02 (without state = start) => PORTC: 1, state = dec"
 setPINA 0x00
-continue 2
-expectPORTB 0x02
-expect state waitA0
+continue 5
+setPINA 0x02
+continue 5
+setPINA 0x00
+continue 5
+setPINA 0x02
+continue 5
+setPINA 0x00
+continue 5
+setPINA 0x02
+continue 5
+setPINA 0x00
+continue 5
+setPINA 0x02
+continue 5
+setPINA 0x00
+continue 5
+setPINA 0x02
+continue 5
+setPINA 0x00
+continue 5
+setPINA 0x02
+continue 5
+expectPORTC 0x01
+expect state dec
 checkResult
 
-test "PINA: 0x01, 0x00 => PORTB: 0x02, state = waitA0"
-setPINA 0x01
-continue 2
+test "PINA: 0x00, 0x02, 0x00, 0x02, 0x00, 0x02, 0x00, 0x02, 0x00, 0x02, 0x00, 0x02 (with state = start) => PORTC: 1, state = dec"
+set state = start
 setPINA 0x00
-continue 2
-expectPORTB 0x02
-expect state waitA0
+continue 5
+setPINA 0x02
+continue 5
+setPINA 0x00
+continue 5
+setPINA 0x02
+continue 5
+setPINA 0x00
+continue 5
+setPINA 0x02
+continue 5
+setPINA 0x00
+continue 5
+setPINA 0x02
+continue 5
+setPINA 0x00
+continue 5
+setPINA 0x02
+continue 5
+setPINA 0x00
+continue 5
+setPINA 0x02
+continue 5
+expectPORTC 0x01
+expect state dec
 checkResult
+
+
+
+
+
 
 
 
