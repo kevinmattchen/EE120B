@@ -12,77 +12,144 @@
 #include "simAVRHeader.h"
 #endif
 
-enum States {start, init, waitPress, inc, waitReleaseA0, dec, waitReleaseA1, reset} state;
+	enum States {start, init, wait, inc, dec, reset} state;
 
-void tick() {
-    switch (state) {
-	case start:
-	    state = init;
-	break;
+    void tick() {
+	switch (state) {
+	    case start:
+		state = init;
+	    break;
+
+	    case init:
+		state = wait;
+	    break;
 	
-	case init:
-	    state = waitPress;
-	break;
+	    case wait:
+		switch (PINA & 0x03) {
+		    case 0:
+			state = wait;
+		    break;
 
-	case waitPress:
-	    switch(PINA & 0x03) {
-		case 0:
-		    state = waitPress;
-		break;
+		    case 1:
+			if (PORTC < 9) {
+			    PORTC++;
+			}
+			state = inc;
+		    break;
 
-		case 1:
-		    state = inc;
-		break;
+		    case 2:
+			if (PORTC > 0) {
+			    PORTC--;
+			}
+			state = dec;
+		    break;
 
-		case 2:
-		    state = dec;
-		break;
-
-		case 3:
-		    state = reset;
-		break;
-
-		default:
-		    state = start;
-		break;
-	    }
-	break;
-
-	case inc:
-	    switch(PINA & 0x03) {
-		case 0:
-		    state = waitPress;
-		break;
-
-		case 1:
-		    state = waitReleaseA0;
-		break;
-
-		case 2:
-		    state = dec;
-		break;
-
-		case 3:
-		    state = reset;
-		break;
-
-		default:
-		    state = start;
-		break;
-	    }
-	break; 
-
-	case waitReleaseA0:
-	    switch(PINA & 0x03) {
+ 		    case 3:
+			state = reset;
+		    break;
 		
-	    }
-	break;
+		    default:
+		  	state = start;
+		    break;
+		}
+	    break;
+
+	    case inc:
+		switch (PINA & 0x03) {
+		    case 0:
+			state = wait;
+		    break;
+
+		    case 1:
+			state = inc;
+		    break;
+
+		    case 2:
+			state = dec;
+		    break;
+
+		    case 3:
+			state = reset;
+		    break;
+
+		    default:
+			state = start;
+		    break;
+		}
+	    break;
+	    
+	    case dec:
+		switch (PINA & 0x03) {
+		    case 0:
+			state = wait;
+		    break;
+		
+		    case 1:
+			state = inc;
+		    break;
+		
+		    case 2:
+			state = dec;
+		    break;
+	
+		    case 3:
+		  	state = reset;
+		    break;
+	 	    
+		    default:
+			state = start;
+		    break;
+		}
+	    break;
+
+	    case reset:
+		state = wait;
+	    break;
+
+	    default:
+		state = start;
+	    break;
+	}
+
+	switch (state) {
+	    case start:
+	    break;
+
+	    case init:
+		PORTC = 7;
+	    break;
+
+	    case wait:
+	    break;
+
+	    case inc:
+	    break;
+
+	    case dec:
+	    break;
+
+	    case reset:
+		PORTC = 0;
+  	    break;
+
+	    default:
+		PORTC = 0;
+	    break;
+	}
+    }
+		
+
 int main(void) {
     /* Insert DDR and PORT initializations */
-	
+	DDRA = 0x00; PORTA = 0x00;
+	DDRC = 0xFF; PORTC = 0x00;
     /* Insert your solution below */
+	
+	PORTC = 0x00;
+	state = start;
+
     while (1) {
-		
+	tick();	
     }
     return 1;
 }
