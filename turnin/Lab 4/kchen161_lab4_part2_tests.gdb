@@ -168,6 +168,33 @@ expectPORTC 0x01
 expect state dec
 checkResult
 
+test "PINA: 0x00, 0x02, 0x03, 0x00 => PORTC = 0, state = wait"
+set state = start
+setPINA 0x00
+continue 5
+setPINA 0x02
+continue 5
+setPINA 0x03
+continue 5
+setPINA 0x00
+continue 5
+expectPORTC 0x00
+expect state wait
+checkResult
+
+test "PINA: 0x00, 0x01, 0x03, 0x00 => PORTC = 0, state = wait"
+set state = start
+setPINA 0x00
+continue 5
+setPINA 0x01
+continue 5
+setPINA 0x03
+continue 5
+setPINA 0x00
+continue 5
+expectPORTC 0x00
+expect state wait
+checkResult
 
 
 
