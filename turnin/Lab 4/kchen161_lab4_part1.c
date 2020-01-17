@@ -12,11 +12,15 @@
 #include "simAVRHeader.h"
 #endif
 
-	enum States {start, waitA0, flip, waitrelease} state;
+	enum States {start, init, waitA0, flip, waitrelease} state;
 
     void tick() {
 	switch(state) {
 	    case start:
+		state = init;
+	    break;
+
+	    case init:
 		state = waitA0;
 	    break;
 	
@@ -51,6 +55,9 @@
 
 	switch(state) {
 	    case start:
+	    break;
+
+	    case init:
 		PORTB = 0x01;
 	    break;
 
