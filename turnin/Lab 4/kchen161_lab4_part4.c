@@ -33,15 +33,17 @@
 	    break;
 
 	    case first:
-		if (PINA & 0x07 == 0x02) {
+		if (((PINA & 0x07) == 0x00) || ((PINA & 0x07) == 0x04)) {
+		    state = first;
+		} else if ((PINA & 0x07) == 0x02) {
 		    state = unlocked;
 		} else {
 		    state = locked;
-		}
+		}	
 	    break;
 
 	    case unlocked:
-		if (PINA & 0x80 == 0x80) {
+		if (PINA & 0x80) {
 		    state = locked;
 		} else if (PINA & 0x07 == 0x04) {
 		    state = firstL;
@@ -51,11 +53,13 @@
 	    break;
 
 	    case firstL:
-		if (PINA & 0x07 == 0x02) {
+		if (((PINA & 0x07) == 0x00) || ((PINA & 0x07) == 0x04)) {
+		    state = firstL;
+		} else if ((PINA & 0x07) == 0x02) {
 		    state = locked;
 		} else {
 		    state = unlocked;
-		}
+		}	
 	    break;
 
 	    default:
