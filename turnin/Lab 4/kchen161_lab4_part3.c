@@ -25,7 +25,7 @@
 	    break;
 
 	    case locked:
-		if (PINA & 0x07 == 0x04) {
+		if ((PINA & 0x07) == 0x04) {
 		    state = first;
 		} else {
 		    state = locked;
@@ -33,7 +33,9 @@
 	    break;
 
 	    case first:
-		if (PINA & 0x07 == 0x02) {
+		if (((PINA & 0x07) == 0x00) || ((PINA & 0x07) == 0x04)) {
+		    state = first;
+		} else if ((PINA & 0x07) == 0x02) {
 		    state = unlocked;
 		} else {
 		    state = locked;
@@ -41,7 +43,7 @@
 	    break;
 
 	    case unlocked:
-		if (PINA & 0x80 == 0x80) {
+		if (PINA & 0x80) {
 		    state = locked;
 		} else {
 		    state = unlocked;
@@ -75,7 +77,6 @@
 	    default:
 		PORTB = 0x00;
 	    break;
-	}
 	}
     }
 		
