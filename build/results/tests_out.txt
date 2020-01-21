@@ -1,13 +1,97 @@
-Breakpoint 1 at 0x2b0: file source/main.c, line 151.
+Breakpoint 1 at 0xea: file source/main.c, line 23.
 Note: automatically using hardware breakpoints for read-only addresses.
-======================================================
-Running all tests..."
+Undefined command: "exit".  Try "help".
+Quit
+Quit
+List of classes of commands:
 
-"PINA: 0x00 => PORTC: 7, state = wait"..."PINA: 0x00, 0x01 => PORTC: 8, state = inc"..."PINA: 0x00, 0x01 (without state = start) => PORTC: 8, state = inc"...
-	Expected 0x08 
-	PORTC '0x800028:	0x09
-"PINA: 0x00, 0x01 (with state = start) => PORTC: 8, state = inc"..."PINA: 0x00, 0x01, 0x00, 0x01, 0x00 => PORTC: 9, state = wait"..."PINA: 0x00, 0x01, 0x00, 0x01, 0x00, 0x01 => PORTC: 9, state = inc"..."PINA: 0x00, 0x02, 0x00, 0x02, 0x00, 0x02, 0x00, 0x02, 0x00, 0x02, 0x00, 0x02 (without state = start) => PORTC: 1, state = dec"...
-	Expected 0x01 
-	PORTC '0x800028:	0x03
-"PINA: 0x00, 0x02, 0x00, 0x02, 0x00, 0x02, 0x00, 0x02, 0x00, 0x02, 0x00, 0x02 (with state = start) => PORTC: 1, state = dec"...======================================================
-Quitting: Remote doesn't know how to detach
+aliases -- Aliases of other commands
+breakpoints -- Making program stop at certain points
+data -- Examining data
+files -- Specifying and examining files
+internals -- Maintenance commands
+obscure -- Obscure features
+running -- Running the program
+stack -- Examining the stack
+status -- Status inquiries
+support -- Support facilities
+tracepoints -- Tracing of program execution without stopping the program
+user-defined -- User-defined commands
+
+Type "help" followed by a class name for a list of commands in that class.
+Type "help all" for the list of all commands.
+Type "help" followed by command name for full documentation.
+Type "apropos word" to search for commands related to "word".
+Command name abbreviations are allowed if unambiguous.
+Undefined command: "ls".  Try "help".
+
+Command class: aliases
+
+ni -- Step one instruction
+rc -- Continue program being debugged but run it in reverse
+rni -- Step backward one instruction
+rsi -- Step backward exactly one instruction
+si -- Step one instruction exactly
+stepping -- Specify single-stepping behavior at a tracepoint
+tp -- Set a tracepoint at specified line or function
+tty -- Set terminal for future runs of program being debugged
+where -- Print backtrace of all stack frames
+ws -- Specify single-stepping behavior at a tracepoint
+
+Command class: breakpoints
+
+awatch -- Set a watchpoint for an expression
+break -- Set breakpoint at specified line or function
+break-range -- Set a breakpoint for an address range
+catch -- Set catchpoints to catch events
+catch assert -- Catch failed Ada assertions
+catch catch -- Catch an exception
+catch exception -- Catch Ada exceptions
+catch exec -- Catch calls to exec
+catch fork -- Catch calls to fork
+catch load -- Catch loads of shared libraries
+catch signal -- Catch signals by their names and/or numbers
+catch syscall -- Catch system calls by their names and/or numbers
+catch throw -- Catch an exception
+catch unload -- Catch unloads of shared libraries
+catch vfork -- Catch calls to vfork
+clear -- Clear breakpoint at specified line or function
+commands -- Set commands to be executed when a breakpoint is hit
+condition -- Specify breakpoint number N to break only if COND is true
+delete -- Delete some breakpoints or auto-display expressions
+delete bookmark -- Delete a bookmark from the bookmark list
+delete breakpoints -- Delete some breakpoints or auto-display expressions
+delete display -- Cancel some expressions to be displayed when program stops
+delete mem -- Delete memory region
+delete tracepoints -- Delete specified tracepoints
+delete tvariable -- Delete one or more trace state variables
+disable -- Disable some breakpoints
+disable breakpoints -- Disable some breakpoints
+disable display -- Disable some expressions to be displayed when program stops
+disable mem -- Disable memory region
+disable pretty-printer -- GDB command to disable the specified pretty-printer
+disable tracepoints -- Disable specified tracepoints
+disable type-printer -- GDB command to disable the specified type-printer
+dprintf -- Set a dynamic printf at specified line or function
+enable -- Enable some breakpoints
+enable breakpoints -- Enable some breakpoints
+enable breakpoints count -- Enable breakpoints for COUNT hits
+enable breakpoints delete -- Enable breakpoints and delete when hit
+enable breakpoints once -- Enable breakpoints for one hit
+enable count -- Enable breakpoints for COUNT hits
+enable delete -- Enable breakpoints and delete when hit
+enable display -- Enable some expressions to be displayed when program stops
+enable mem -- Enable memory region
+enable once -- Enable breakpoints for one hit
+enable pretty-printer -- GDB command to enable the specified pretty-printer
+enable tracepoints -- Enable specified tracepoints
+enable type-printer -- GDB command to enable the specified type printer
+ftrace -- Set a fast tracepoint at specified line or function
+hbreak -- Set a hardware assisted breakpoint
+ignore -- Set ignore-count of breakpoint number N to COUNT
+Quit
+A debugging session is active.
+
+	Inferior 1 [Remote target] will be detached.
+
+Quit anyway? (y or n) Remote connection closed

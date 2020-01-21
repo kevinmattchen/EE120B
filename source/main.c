@@ -11,145 +11,25 @@
 #ifdef _SIMULATE_
 #include "simAVRHeader.h"
 #endif
-
-	enum States {start, init, wait, inc, dec, reset} state;
-
-    void tick() {
-	switch (state) {
-	    case start:
-		state = init;
-	    break;
-
-	    case init:
-		state = wait;
-	    break;
-	
-	    case wait:
-		switch (PINA & 0x03) {
-		    case 0:
-			state = wait;
-		    break;
-
-		    case 1:
-			if (PORTC < 9) {
-			    PORTC++;
-			}
-			state = inc;
-		    break;
-
-		    case 2:
-			if (PORTC > 0) {
-			    PORTC--;
-			}
-			state = dec;
-		    break;
-
- 		    case 3:
-			state = reset;
-		    break;
-		
-		    default:
-		  	state = start;
-		    break;
-		}
-	    break;
-
-	    case inc:
-		switch (PINA & 0x03) {
-		    case 0:
-			state = wait;
-		    break;
-
-		    case 1:
-			state = inc;
-		    break;
-
-		    case 2:
-			state = dec;
-		    break;
-
-		    case 3:
-			state = reset;
-		    break;
-
-		    default:
-			state = start;
-		    break;
-		}
-	    break;
-	    
-	    case dec:
-		switch (PINA & 0x03) {
-		    case 0:
-			state = wait;
-		    break;
-		
-		    case 1:
-			state = inc;
-		    break;
-		
-		    case 2:
-			state = dec;
-		    break;
-	
-		    case 3:
-		  	state = reset;
-		    break;
-	 	    
-		    default:
-			state = start;
-		    break;
-		}
-	    break;
-
-	    case reset:
-		state = wait;
-	    break;
-
-	    default:
-		state = start;
-	    break;
-	}
-
-	switch (state) {
-	    case start:
-	    break;
-
-	    case init:
-		PORTC = 7;
-	    break;
-
-	    case wait:
-	    break;
-
-	    case inc:
-	    break;
-
-	    case dec:
-	    break;
-
-	    case reset:
-		PORTC = 0;
-  	    break;
-
-	    default:
-		PORTC = 0;
-	    break;
-	}
-    }
-		
-
 int main(void) {
     /* Insert DDR and PORT initializations */
 	DDRA = 0x00; PORTA = 0x00;
-	DDRC = 0xFF; PORTC = 0x00;
-    /* Insert your solution below */
+	DDRB = 0xFF; PORTB = 0x00;
 	
-	PORTC = 0x00;
-	state = start;
+	unsigned char leds;
+	unsigned char button;
+    /* Insert your solution below */ 
 
     while (1) {
-	tick();	
+	button = PINA & 0x01;
+	
+	if (button) {
+	    leds = 0x01;
+	} else {
+	    leds = 0x02;
+	}
+
+	PORTB = leds;	
     }
     return 1;
 }
