@@ -14,7 +14,7 @@
 int main(void) {
     /* Insert DDR and PORT initializations */
 	DDRA = 0x00; PORTA = 0x00;
-	DDRB = 0xFF; PORTB = 0x00;
+	DDRC = 0xFF; PORTC = 0x00;
 	
 	unsigned char leds;
 	unsigned char button;
@@ -29,7 +29,7 @@ int main(void) {
 	    leds = 0x02;
 	}
 
-	PORTB = leds;	
+	PORTC = leds;	
     }
     return 1;
 }
