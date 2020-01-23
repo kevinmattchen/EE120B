@@ -13,8 +13,13 @@
 #endif
 
 	enum States {start, init, wait, inc, dec, reset} state;
+		
+	unsigned char buttons;
 
     void tick() {
+		
+	buttons = PINA & 0x03;
+	
 	switch (state) {
 	    case start:
 		state = init;
@@ -25,7 +30,7 @@
 	    break;
 	
 	    case wait:
-		switch (PINA & 0x03) {
+		switch (buttons) {
 		    case 0:
 			state = wait;
 		    break;
@@ -55,7 +60,7 @@
 	    break;
 
 	    case inc:
-		switch (PINA & 0x03) {
+		switch (buttons) {
 		    case 0:
 			state = wait;
 		    break;
@@ -79,7 +84,7 @@
 	    break;
 	    
 	    case dec:
-		switch (PINA & 0x03) {
+		switch (buttons) {
 		    case 0:
 			state = wait;
 		    break;
@@ -103,7 +108,15 @@
 	    break;
 
 	    case reset:
-		state = wait;
+			switch (buttons) {
+				case 0:
+					state = wait;
+				break;
+				
+				default:
+					state = reset;
+				break;
+			}
 	    break;
 
 	    default:
