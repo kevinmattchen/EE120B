@@ -55,43 +55,7 @@ expectPORTB 0x02
 expect state waitrelease
 checkResult
 
-test "PINA: 0x01, 0x00 (without state = start) => PORTB: 0x02, state = waitA0"
-setPINA 0x01
-continue 5
-setPINA 0x00
-continue 5
-expectPORTB 0x02
-expect state waitA0
-checkResult
-
-test "PINA: 0x01, 0x00 (without state = start) => PORTB: 0x02, state = waitA0"
-setPINA 0x01
-continue 5
-setPINA 0x00
-continue 5
-expectPORTB 0x02
-expect state waitA0
-checkResult
-
-test "PINA: 0x01, 0x00 (without state = start) => PORTB: 0x02, state = waitA0"
-setPINA 0x01
-continue 5
-setPINA 0x00
-continue 5
-expectPORTB 0x02
-expect state waitA0
-checkResult
-
-test "PINA: 0x01, 0x00 (without state = start) => PORTB: 0x02, state = waitA0"
-setPINA 0x01
-continue 5
-setPINA 0x00
-continue 5
-expectPORTB 0x02
-expect state waitA0
-checkResult
-
-test "PINA: 0x01, 0x00 (with state = start) => PORTB: 0x02, state = waitA0"
+test "PINA: 0x01, 0x00 => PORTB: 0x02, state = waitA0"
 set state = start
 setPINA 0x01
 continue 5
@@ -101,34 +65,16 @@ expectPORTB 0x02
 expect state waitA0
 checkResult
 
-test "PINA: 0x01, 0x00 (with state = start) => PORTB: 0x02, state = waitA0"
+test "PINA: 0x01, 0x00, 0x01 => PORTB: 0x01, state = waitrelease"
 set state = start
 setPINA 0x01
 continue 5
 setPINA 0x00
 continue 5
-expectPORTB 0x02
-expect state waitA0
-checkResult
-
-test "PINA: 0x01, 0x00 (with state = start) => PORTB: 0x02, state = waitA0"
-set state = start
 setPINA 0x01
 continue 5
-setPINA 0x00
-continue 5
-expectPORTB 0x02
-expect state waitA0
-checkResult
-
-test "PINA: 0x01, 0x00 (with state = start) => PORTB: 0x02, state = waitA0"
-set state = start
-setPINA 0x01
-continue 5
-setPINA 0x00
-continue 5
-expectPORTB 0x02
-expect state waitA0
+expectPORTB 0x01
+expect state waitrelease
 checkResult
 
 
