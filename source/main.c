@@ -14,8 +14,8 @@
 int main(void) {
     /* Insert DDR and PORT initializations */
 	DDRA = 0x00; PORTA = 0x00;
-	DDRB = 0xFF; PORTB = 0x00;
-	
+	DDRC = 0xFF; PORTC = 0x00;
+		
 	unsigned char leds;
 	unsigned char button;
     /* Insert your solution below */ 
@@ -24,12 +24,12 @@ int main(void) {
 	button = PINA & 0x01;
 	
 	if (button) {
-	    leds = 0x01;
+	    leds = 0xFF;
 	} else {
-	    leds = 0x02;
+	    leds = 0x00;
 	}
 
-	PORTB = leds;	
+	PORTC = leds;	
     }
     return 1;
 }
