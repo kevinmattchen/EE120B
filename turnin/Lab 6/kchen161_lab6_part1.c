@@ -1,7 +1,7 @@
 /*	Author: kchen161
  *      Partner(s) Name: Kevin Chen
  *	Lab Section: 23
- *	Assignment: Lab #6  Exercise practice
+ *	Assignment: Lab #6  Exercise 1
  *	Exercise Description: [optional - include for your own benefit]
  *
  *	I acknowledge all content contained herein, excluding template or example
