@@ -48,94 +48,23 @@ expectPORTB 0x01
 expect state blink1
 checkResult
 
-test "32 ticks -> PORTB: 0x02, state = blink2"
+test "3 ticks -> PORTB: 0x02, state = blink2"
 set state = start
-continue 32
+continue 3
 expectPORTB 0x02
 expect state blink2
 checkResult
 
-test "62 ticks -> PORTB: 0x04, state = blink3"
+test "4 ticks -> PORTB: 0x04, state = blink3"
 set state = start
-continue 62
+continue 4
 expectPORTB 0x04
 expect state blink3
 checkResult
 
-test "92 ticks -> PORTB: 0x01, state = blink1"
+test "5 ticks -> PORTB: 0x01, state = blink1"
 set state = start
-continue 92
-expectPORTB 0x01
-expect state blink1
-checkResult
-
-test "32 ticks, A0 = 1, 5 ticks -> PORTB: 0x02, state = wait2"
-set state = start
-continue 32
-setPINA 0x01
 continue 5
-expectPORTB 0x02
-expect state wait2
-checkResult
-
-test "62 ticks, A0 = 1, 5 ticks -> PORTB: 0x04, state = wait3"
-set state = start
-setPINA 0x00
-continue 62
-setPINA 0x01
-continue 5
-expectPORTB 0x04
-expect state wait3
-checkResult
-
-test "92 ticks, A0 = 1, 5 ticks -> PORTB: 0x01, state = wait1"
-set state = start
-setPINA 0x00
-continue 92
-setPINA 0x01
-continue 5
-expectPORTB 0x01
-expect state wait1
-checkResult
-
-test "32 ticks, A0 = 1, 5 ticks, A0 = 0, 5 ticks -> PORTB: 0x02, state = stay2"
-set state = start
-setPINA 0x00
-continue 32
-setPINA 0x01
-continue 5
-setPINA 0x00
-continue 5
-expectPORTB 0x02
-expect state stay2
-checkResult
-
-test "32 ticks, A0 = 1, 5 ticks, A0 = 0, 5 ticks, A0 = 1, 5 ticks -> PORTB: 0x00, state = init"
-set state = start
-setPINA 0x00
-continue 32
-setPINA 0x01
-continue 5
-setPINA 0x00
-continue 5
-setPINA 0x01
-continue 5
-expectPORTB 0x00
-expect state init
-checkResult
-
-test "32 ticks, A0 = 1, 5 ticks, A0 = 0, 5 ticks, A0 = 1, 5 ticks, A0 = 0, 1 tick -> PORTB: 0x01, state = blink1"
-set state = start
-setPINA 0x00
-continue 32
-setPINA 0x01
-continue 5
-setPINA 0x00
-continue 5
-setPINA 0x01
-continue 5
-setPINA 0x00
-continue 1
 expectPORTB 0x01
 expect state blink1
 checkResult
