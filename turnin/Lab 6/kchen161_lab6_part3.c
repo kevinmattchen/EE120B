@@ -105,7 +105,7 @@ void TimerSet(unsigned long M) {
 		    break;
 
 		    case 1:
-				if (count < 10) {
+				if (count < 9) {
 					state = inc;
 					count++;
 				} else {
@@ -142,7 +142,7 @@ void TimerSet(unsigned long M) {
 		    break;
 		
 		    case 2:
-				if (count < 10) {
+				if (count < 9) {
 					state = dec;
 					count++;
 				} else {

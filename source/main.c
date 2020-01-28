@@ -1,7 +1,7 @@
 /*	Author: kchen161
  *      Partner(s) Name: Kevin Chen
  *	Lab Section: 23
- *	Assignment: Lab #6  Exercise 2
+ *	Assignment: Lab #6  Exercise 3
  *	Exercise Description: [optional - include for your own benefit]
  *
  *	I acknowledge all content contained herein, excluding template or example
@@ -50,182 +50,178 @@ void TimerSet(unsigned long M) {
 	_avr_timer_cntcurr = _avr_timer_M;
 }
 
-enum States {start, init, blink1, wait1, stay1, blink2, wait2, stay2, blink3, wait3, stay3} state;
+	enum States {start, init, wait, inc, dec, reset} state;
+		
+	unsigned char buttons;
+
+    void tick() {
+		
+	buttons = PINA & 0x03;
 	
-void tick() {
-	switch(state) {
-		case start:
-			state = init;
-		break;
+	switch (state) {
+	    case start:
+		state = init;
+	    break;
+
+	    case init:
+		state = wait;
+	    break;
+	
+	    case wait:
+		count = 0;
+		switch (buttons) {
+		    case 0:
+			state = wait;
+		    break;
+
+		    case 1:
+			state = inc;
+			if (PORTC < 9) {
+				PORTC++;
+			}
+		    break;
+
+		    case 2:
+			state = dec;
+			if (PORTC > 0) {
+				PORTC--;
+			}
+		    break;
+
+ 		    case 3:
+			state = reset;
+		    break;
 		
-		case init:
-			if (PINA & 0x01) {
-				state = init;
-			} else {
-				state = blink1;
-			}
-		break;
-		
-		case blink1:
-			if (count < 29) {
-				state = blink1;
-				count++;
-			} else {
-				state = blink2;
-				count = 0;
-			}
-			if (PINA & 0x01) {
-				state = wait1;
-				count = 0;
-				break;
-			}
-		break;
-		
-		case wait1:
-			if (PINA & 0x01) {
-				state = wait1;
-			} else {
-				state = stay1;
-			}
-		break;
-		
-		case stay1:
-			if (PINA & 0X01) {
-				state = init;
-			} else {
-				state = stay1;
-			}
-		break;
-		
-		case blink2:
-			if (count < 29) {
-				state = blink2;
-				count++;
-			} else {
-				state = blink3;
-				count = 0;
-			}
-			if (PINA & 0x01) {
-				state = wait2;
-				count = 0;
-				break;
-			}
-		break;
-		
-		case wait2:
-		if (PINA & 0x01) {
-			state = wait2;
-			} else {
-			state = stay2;
+		    default:
+		  	state = start;
+		    break;
 		}
-		break;
-		
-		case stay2:
-		if (PINA & 0X01) {
-			state = init;
-			} else {
-			state = stay2;
-		}
-		break;
-		
-		case blink3:
-			if (count < 29) {
-				state = blink3;
-				count++;
-			} else {
-				state = blink1;
-				count = 0;
-			}
-			if (PINA & 0x01) {
-				state = wait3;
-				count = 0;
-				break;
-			}
-		break;
-		
-		case wait3:
-		if (PINA & 0x01) {
-			state = wait3;
-			} else {
-			state = stay3;
-		}
-		break;
-		
-		case stay3:
-		if (PINA & 0X01) {
-			state = init;
-			} else {
-			state = stay3;
-		}
-		break;
-		
-		default:
+	    break;
+
+	    case inc:
+		switch (buttons) {
+		    case 0:
+			state = wait;
+		    break;
+
+		    case 1:
+				if (count < 9) {
+					state = inc;
+					count++;
+				} else {
+					state = inc;
+					if (PORTC < 9) {
+						PORTC++;
+					}
+					count = 0;
+				}
+		    break;
+
+		    case 2:
+			state = dec;
+		    break;
+
+		    case 3:
+			state = reset;
+		    break;
+
+		    default:
 			state = start;
-		break;
-	}
+		    break;
+		}
+	    break;
+	    
+	    case dec:
+		switch (buttons) {
+		    case 0:
+			state = wait;
+		    break;
+		
+		    case 1:
+			state = inc;
+		    break;
+		
+		    case 2:
+				if (count < 9) {
+					state = dec;
+					count++;
+				} else {
+					state = dec;
+					if (PORTC > 0) {
+						PORTC--;
+					}
+					count = 0;
+				}
+		    break;
 	
-	switch(state) {
-		case start:
-		break;
-		
-		case init:
-			PORTB = 0x00;
-		break;
-		
-		case blink1:
-			PORTB = 0x01;
-		break;
-		
-		case wait1:
-			PORTB = 0x01;
-		break;
-		
-		case stay1:
-			PORTB = 0x01;
-		break;
-		
-		case blink2:
-			PORTB = 0x02;
-		break;
-		
-		case wait2:
-		PORTB = 0x02;
-		break;
-		
-		case stay2:
-		PORTB = 0x02;
-		break;
-		
-		case blink3:
-			PORTB = 0x04;
-		break;
-		
-		case wait3:
-		PORTB = 0x04;
-		break;
-		
-		case stay3:
-		PORTB = 0x04;
-		break;
-		
-		default:
-			PORTB = 0x07;
-		break;
+		    case 3:
+		  	state = reset;
+		    break;
+	 	    
+		    default:
+			state = start;
+		    break;
+		}
+	    break;
+
+	    case reset:
+			switch (buttons) {
+				case 0:
+					state = wait;
+				break;
+				
+				default:
+					state = reset;
+				break;
+			}
+	    break;
+
+	    default:
+		state = start;
+	    break;
+	}
+
+	switch (state) {
+	    case start:
+	    break;
+
+	    case init:
+		PORTC = 7;
+	    break;
+
+	    case wait:
+	    break;
+
+	    case inc:
+	    break;
+
+	    case dec:
+	    break;
+
+	    case reset:
+		PORTC = 0;
+  	    break;
+
+	    default:
+		PORTC = 0;
+	    break;
 	}
 }
 
 int main(void) {
     /* Insert DDR and PORT initializations */
-	DDRB = 0xFF; PORTB = 0x00;
-	
-	state = start;
+	DDRA = 0x00; PORTA = 0x00;
+	DDRC = 0xFF; PORTC = 0x00;
     /* Insert your solution below */
-	TimerSet(10);
-	TimerOn();
 	
+	PORTC = 0x00;
+	state = start;
+	TimerSet(100);
+	TimerOn();
+
     while (1) {
 		tick();
-		while(!TimerFlag) {}
+		while(!TimerFlag){}
 		TimerFlag = 0;
     }
     return 1;

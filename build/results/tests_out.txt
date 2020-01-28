@@ -1,7 +1,7 @@
-Breakpoint 1 at 0x47a: file source/main.c, line 226.
+Breakpoint 1 at 0x44a: file source/main.c, line 222.
 Note: automatically using hardware breakpoints for read-only addresses.
 ======================================================
 Running all tests..."
 
-"2 ticks -> PORTB: 0x01, state = blink1"..."32 ticks -> PORTB: 0x02, state = blink2"..."62 ticks -> PORTB: 0x04, state = blink3"..."92 ticks -> PORTB: 0x01, state = blink1"..."32 ticks, A0 = 1, 5 ticks -> PORTB: 0x02, state = wait2"..."62 ticks, A0 = 1, 5 ticks -> PORTB: 0x04, state = wait3"..."92 ticks, A0 = 1, 5 ticks -> PORTB: 0x01, state = wait1"..."32 ticks, A0 = 1, 5 ticks, A0 = 0, 5 ticks -> PORTB: 0x02, state = stay2"..."32 ticks, A0 = 1, 5 ticks, A0 = 0, 5 ticks, A0 = 1, 5 ticks -> PORTB: 0x00, state = init"..."32 ticks, A0 = 1, 5 ticks, A0 = 0, 5 ticks, A0 = 1, 5 ticks, A0 = 0, 1 tick -> PORTB: 0x01, state = blink1"...======================================================
+"2 ticks -> PORTC: 0x07, state = wait"..."2 ticks, A = 0x01, 5 ticks -> PORTC: 0x08, state = inc"..."2 ticks, A = 0x01, 11 ticks -> PORTC: 0x09, state = inc"..."2 ticks, A = 0x01, 21 ticks -> PORTC: 0x09, state = inc"..."2 ticks, A = 0x02, 5 ticks -> PORTC: 0x06, state = dec"..."2 ticks, A = 0x02, 11 ticks -> PORTC: 0x05, state = dec"..."2 ticks, A = 0x02, 21 ticks -> PORTC: 0x04, state = dec"..."2 ticks, A = 0x03, 5 ticks -> PORTC: 0x00, state = reset"..."2 ticks, A = 0x02, 2 ticks, A = 0x00, 2 ticks A = 0x02, 2 ticks, A = 0x00 -> PORTC: 0x05, state = wait"...======================================================
 Quitting: Remote doesn't know how to detach

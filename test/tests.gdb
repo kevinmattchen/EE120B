@@ -41,107 +41,104 @@ echo Running all tests..."\n\n
 
 
 # Add tests below
-test "2 ticks -> PORTB: 0x01, state = blink1"
+test "2 ticks -> PORTC: 0x07, state = wait"
 set state = start
+setPINA 0x00
 continue 2
-expectPORTB 0x01
-expect state blink1
+expectPORTC 0x07
+expect state wait
 checkResult
 
-test "32 ticks -> PORTB: 0x02, state = blink2"
+test "2 ticks, A = 0x01, 5 ticks -> PORTC: 0x08, state = inc"
 set state = start
-continue 32
-expectPORTB 0x02
-expect state blink2
-checkResult
-
-test "62 ticks -> PORTB: 0x04, state = blink3"
-set state = start
-continue 62
-expectPORTB 0x04
-expect state blink3
-checkResult
-
-test "92 ticks -> PORTB: 0x01, state = blink1"
-set state = start
-continue 92
-expectPORTB 0x01
-expect state blink1
-checkResult
-
-test "32 ticks, A0 = 1, 5 ticks -> PORTB: 0x02, state = wait2"
-set state = start
-continue 32
+setPINA 0x00
+continue 2
 setPINA 0x01
 continue 5
-expectPORTB 0x02
-expect state wait2
+expectPORTC 0x08
+expect state inc
 checkResult
 
-test "62 ticks, A0 = 1, 5 ticks -> PORTB: 0x04, state = wait3"
+test "2 ticks, A = 0x01, 11 ticks -> PORTC: 0x09, state = inc"
 set state = start
 setPINA 0x00
-continue 62
+continue 2
 setPINA 0x01
-continue 5
-expectPORTB 0x04
-expect state wait3
+continue 11
+expectPORTC 0x09
+expect state inc
 checkResult
 
-test "92 ticks, A0 = 1, 5 ticks -> PORTB: 0x01, state = wait1"
+test "2 ticks, A = 0x01, 21 ticks -> PORTC: 0x09, state = inc"
 set state = start
 setPINA 0x00
-continue 92
+continue 2
 setPINA 0x01
-continue 5
-expectPORTB 0x01
-expect state wait1
+continue 21
+expectPORTC 0x09
+expect state inc
 checkResult
 
-test "32 ticks, A0 = 1, 5 ticks, A0 = 0, 5 ticks -> PORTB: 0x02, state = stay2"
+test "2 ticks, A = 0x02, 5 ticks -> PORTC: 0x06, state = dec"
 set state = start
 setPINA 0x00
-continue 32
-setPINA 0x01
+continue 2
+setPINA 0x02
 continue 5
-setPINA 0x00
-continue 5
-expectPORTB 0x02
-expect state stay2
+expectPORTC 0x06
+expect state dec
 checkResult
 
-test "32 ticks, A0 = 1, 5 ticks, A0 = 0, 5 ticks, A0 = 1, 5 ticks -> PORTB: 0x00, state = init"
+test "2 ticks, A = 0x02, 11 ticks -> PORTC: 0x05, state = dec"
 set state = start
 setPINA 0x00
-continue 32
-setPINA 0x01
-continue 5
-setPINA 0x00
-continue 5
-setPINA 0x01
-continue 5
-expectPORTB 0x00
-expect state init
+continue 2
+setPINA 0x02
+continue 11
+expectPORTC 0x05
+expect state dec
 checkResult
 
-test "32 ticks, A0 = 1, 5 ticks, A0 = 0, 5 ticks, A0 = 1, 5 ticks, A0 = 0, 1 tick -> PORTB: 0x01, state = blink1"
+test "2 ticks, A = 0x02, 21 ticks -> PORTC: 0x04, state = dec"
 set state = start
 setPINA 0x00
-continue 32
-setPINA 0x01
-continue 5
+continue 2
+setPINA 0x02
+continue 21
+expectPORTC 0x04
+expect state dec
+checkResult
+
+test "2 ticks, A = 0x03, 5 ticks -> PORTC: 0x00, state = reset"
+set state = start
 setPINA 0x00
+continue 2
+setPINA 0x03
 continue 5
-setPINA 0x01
-continue 5
+expectPORTC 0x00
+expect state reset
+checkResult
+
+test "2 ticks, A = 0x02, 2 ticks, A = 0x00, 2 ticks A = 0x02, 2 ticks, A = 0x00 -> PORTC: 0x05, state = wait"
+set state = start
 setPINA 0x00
-continue 1
-expectPORTB 0x01
-expect state blink1
+continue 2
+setPINA 0x02
+continue 2
+setPINA 0x00
+continue 2
+setPINA 0x02
+continue 2
+setPINA 0x00
+continue 2
+expectPORTC 0x05
+expect state wait
 checkResult
 
 
-# Report on how many tests passed/tests ran
+
+
+ #Report on how many tests passed/tests ran
 set $passed=$tests-$failed
 eval "shell echo Passed %d/%d tests.\n",$passed,$tests
 echo ======================================================\n
