@@ -15,6 +15,8 @@ volatile unsigned char TimerFlag = 0;
 unsigned long _avr_timer_M = 1;
 unsigned long _avr_timer_cntcurr = 0;
 
+unsigned char count = 0;
+
 void TimerOn() {
 	TCCR1B = 0x0B;
 	OCR1A = 125;
@@ -63,6 +65,7 @@ void TimerSet(unsigned long M) {
 	    break;
 	
 	    case wait:
+		count = 0;
 		switch (buttons) {
 		    case 0:
 			state = wait;
@@ -70,10 +73,16 @@ void TimerSet(unsigned long M) {
 
 		    case 1:
 			state = inc;
+			if (PORTC < 9) {
+				PORTC++;
+			}
 		    break;
 
 		    case 2:
 			state = dec;
+			if (PORTC > 0) {
+				PORTC--;
+			}
 		    break;
 
  		    case 3:
@@ -93,7 +102,16 @@ void TimerSet(unsigned long M) {
 		    break;
 
 		    case 1:
-			state = inc;
+				if (count < 10) {
+					state = inc;
+					count++;
+				} else {
+					state = inc;
+					if (PORTC < 9) {
+						PORTC++;
+					}
+					count = 0;
+				}
 		    break;
 
 		    case 2:
@@ -121,7 +139,16 @@ void TimerSet(unsigned long M) {
 		    break;
 		
 		    case 2:
-			state = dec;
+				if (count < 10) {
+					state = dec;
+					count++;
+				} else {
+					state = dec;
+					if (PORTC > 0) {
+						PORTC--;
+					}
+					count = 0;
+				}
 		    break;
 	
 		    case 3:
@@ -163,15 +190,9 @@ void TimerSet(unsigned long M) {
 	    break;
 
 	    case inc:
-			if (PORTC < 9) {
-				PORTC++;
-			}
 	    break;
 
 	    case dec:
-			if (PORTC > 0) {
-				PORTC--;
-			}
 	    break;
 
 	    case reset:
