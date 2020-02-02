@@ -3,5 +3,5 @@ Note: automatically using hardware breakpoints for read-only addresses.
 ======================================================
 Running all tests..."
 
-"2 ticks -> PORTC: 0x07, state = wait"..."2 ticks, A = 0x01, 5 ticks -> PORTC: 0x08, state = inc"..."2 ticks, A = 0x01, 11 ticks -> PORTC: 0x09, state = inc"..."2 ticks, A = 0x01, 21 ticks -> PORTC: 0x09, state = inc"..."2 ticks, A = 0x02, 5 ticks -> PORTC: 0x06, state = dec"..."2 ticks, A = 0x02, 11 ticks -> PORTC: 0x05, state = dec"..."2 ticks, A = 0x02, 21 ticks -> PORTC: 0x04, state = dec"..."2 ticks, A = 0x03, 5 ticks -> PORTC: 0x00, state = reset"..."2 ticks, A = 0x02, 2 ticks, A = 0x00, 2 ticks A = 0x02, 2 ticks, A = 0x00 -> PORTC: 0x05, state = wait"...======================================================
-Quitting: Remote doesn't know how to detach
+"2 ticks -> PORTC: 0x07, state = wait"..."2 ticks, A = 0x01, 5 ticks -> PORTC: 0x08, state = inc"..."2 ticks, A = 0x01, 11 ticks -> PORTC: 0x09, state = inc"..."2 ticks, A = 0x01, 21 ticks -> PORTC: 0x09, state = inc"...test/tests.gdb:77: Error in sourced command file:
+Remote connection closed
