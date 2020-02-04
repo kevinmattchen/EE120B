@@ -12,7 +12,7 @@
 #include "simAVRHeader.h"
 #endif
 
-const unsigned short MAX = 0; // UPDATE MAX
+const unsigned short MAX = 927; // UPDATE MAX
 
 void ADC_init() {
 	ADCSRA |= (1 << ADEN) | (1 << ADSC) | (1 << ADATE);
