@@ -320,6 +320,9 @@ int main(void) {
 					}
 				}
 			}
+			
+			sw = PINA & 0x01;
+			while(sw) { sw = PINA & 0x01; }
 		}
     }
     return 1;
