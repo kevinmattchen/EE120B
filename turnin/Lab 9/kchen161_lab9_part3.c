@@ -262,7 +262,7 @@ int main(void) {
 				}
 			}
 			
-			elements = sizeof(Melody1_1) / sizeof(int);
+			elements = sizeof(Melody1_1) / sizeof(short);
 			for (j = 0; j < elements; j++) {
 				set_PWM(Melody1_1[j]);
 				for (k = 0; k < notelengths1_1[j]; k++) {
@@ -276,7 +276,7 @@ int main(void) {
 				}
 			}
 			
-			elements = sizeof(Melody1_2) / sizeof(int);
+			elements = sizeof(Melody1_2) / sizeof(short);
 			for (j = 0; j < elements; j++) {
 				set_PWM(Melody1_2[j]);
 				for (k = 0; k < notelengths1_2[j]; k++) {
@@ -301,8 +301,8 @@ int main(void) {
 				TimerFlag = 0;
 			}
 			
-			for (int i = 0; i < 2; i++) {
-				elements = sizeof(Trio) / sizeof(int);
+			for (i = 0; i < 2; i++) {
+				elements = sizeof(Trio) / sizeof(short);
 				for (j = 0; j < elements; j++) {
 					set_PWM(Trio[j]);
 					for (k = 0; k < notelengthsTrio[j]; k++) {
@@ -317,7 +317,7 @@ int main(void) {
 				}
 
 				if (i == 0) {
-					elements = sizeof(TrioFirstend) / sizeof(int);
+					elements = sizeof(TrioFirstend) / sizeof(short);
 					for (j = 0; j < elements; j++) {
 						set_PWM(TrioFirstend[j]);
 						for (k = 0; k < notelengthsTrioFirstend[j]; k++) {
@@ -331,7 +331,7 @@ int main(void) {
 						}
 					}
 				} else {
-					elements = sizeof(TrioSecondend) / sizeof(int);
+					elements = sizeof(TrioSecondend) / sizeof(short);
 					for (j = 0; j < elements; j++) {
 						set_PWM(TrioSecondend[j]);
 						for (k = 0; k < notelengthsTrioSecondend[j]; k++) {
@@ -347,8 +347,8 @@ int main(void) {
 				}
 			}
 		
-			for (int i = 0; i < 2; i++) {
-				elements = sizeof(Ending_1) / sizeof(int);
+			for (i = 0; i < 2; i++) {
+				elements = sizeof(Ending_1) / sizeof(short);
 				for (j = 0; j < elements; j++) {
 					set_PWM(Ending_1[j]);
 					for (k = 0; k < notelengthsEnding_1[j]; k++) {
@@ -362,7 +362,7 @@ int main(void) {
 					}
 				}
 
-				elements = sizeof(Ending_2) / sizeof(int);
+				elements = sizeof(Ending_2) / sizeof(short);
 				for (j = 0; j < elements; j++) {
 					set_PWM(Ending_2[j]);
 					for (k = 0; k < notelengthsEnding_2[j]; k++) {
@@ -377,7 +377,7 @@ int main(void) {
 				}
 
 				if (i == 0) {
-					elements = sizeof(EndingFirstend) / sizeof(int);
+					elements = sizeof(EndingFirstend) / sizeof(short);
 					for (j = 0; j < elements; j++) {
 						set_PWM(EndingFirstend[j]);
 						for (k = 0; k < notelengthsEndingFirstend[j]; k++) {
@@ -391,7 +391,7 @@ int main(void) {
 						}
 					}
 				} else {
-					elements = sizeof(EndingSecondend) / sizeof(int);
+					elements = sizeof(EndingSecondend) / sizeof(short);
 					for (j = 0; j < elements; j++) {
 						set_PWM(EndingSecondend[j]);
 						for (k = 0; k < notelengthsEndingSecondend[j]; k++) {
