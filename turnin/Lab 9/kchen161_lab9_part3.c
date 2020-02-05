@@ -137,6 +137,21 @@ void PWM_off() {
 	TCCR3B = 0x00;
 }
 
+void tone(char a, short frq) {
+	a = 0; //dud
+	set_PWM(frq);
+}
+void delay(short t) {
+	for (short i = 0; i < t; i++) {
+		while(!TimerFlag) {}
+		TimerFlag = 0;
+	}
+}
+void noTone(char a) {
+	a = 0; //dud
+	set_PWM(0);
+}
+
 unsigned char button;
 
 int main(void) {
@@ -146,7 +161,8 @@ int main(void) {
 	
 	unsigned char elements;
 	unsigned char sw;
-	unsigned short i, j, k;
+	unsigned short i, j;
+	char buzzer = 0;
 	
     /* Insert your solution below */
 	TimerSet(1);
@@ -159,254 +175,151 @@ int main(void) {
 		
 		if (sw) {
 			for (i = 0; i < 2; i++) {
-				elements = sizeof(Melody1_1) / sizeof(short);
+				elements = sizeof(Melody1_1) / sizeof(int);
 				for (j = 0; j < elements; j++) {
-					set_PWM(Melody1_1[j]);
-					for (k = 0; k < notelengths1_1[j]; k++) {
-						while(!TimerFlag) {}
-						TimerFlag = 0;
-					}
-					set_PWM(0);
-					for (k = 0; k < restlengths1_1[j]; k++) {
-						while(!TimerFlag) {}
-						TimerFlag = 0;
-					}
+					tone(buzzer, Melody1_1[j]);
+					delay(notelengths1_1[j]);
+					noTone(buzzer);
+					delay(restlengths1_1[j]);
 				}
 				
-				elements = sizeof(Melody1_2) / sizeof(short);
+				elements = sizeof(Melody1_2) / sizeof(int);
 				for (j = 0; j < elements; j++) {
-					set_PWM(Melody1_2[j]);
-					for (k = 0; k < notelengths1_2[j]; k++) {
-						while(!TimerFlag) {}
-						TimerFlag = 0;
-					}
-					set_PWM(0);
-					for (k = 0; k < restlengths1_2[j]; k++) {
-						while(!TimerFlag) {}
-						TimerFlag = 0;
-					}
+					tone(buzzer, Melody1_2[j]);
+					delay(notelengths1_2[j]);
+					noTone(buzzer);
+					delay(restlengths1_2[j]);
 				}
 			}
-			
+
 			for (i = 0; i < 2; i++) {
-				elements = sizeof(Melody2_1) / sizeof(short);
+				elements = sizeof(Melody2_1) / sizeof(int);
 				for (j = 0; j < elements; j++) {
-					set_PWM(Melody2_1[j]);
-					for (k = 0; k < notelengths2_1[j]; k++) {
-						while(!TimerFlag) {}
-						TimerFlag = 0;
-					}
-					set_PWM(0);
-					for (k = 0; k < restlengths2_1[j]; k++) {
-						while(!TimerFlag) {}
-						TimerFlag = 0;
-					}
+					tone(buzzer, Melody2_1[j]);
+					delay(notelengths2_1[j]);
+					noTone(buzzer);
+					delay(restlengths2_1[j]);
 				}
 
-				elements = sizeof(Melody2_2) / sizeof(short);
+				elements = sizeof(Melody2_2) / sizeof(int);
 				for (j = 0; j < elements; j++) {
-					set_PWM(Melody2_2[j]);
-					for (k = 0; k < notelengths2_2[j]; k++) {
-						while(!TimerFlag) {}
-						TimerFlag = 0;
-					}
-					set_PWM(0);
-					for (k = 0; k < restlengths2_2[j]; k++) {
-						while(!TimerFlag) {}
-						TimerFlag = 0;
-					}
+					tone(buzzer, Melody2_2[j]);
+					delay(notelengths2_2[j]);
+					noTone(buzzer);
+					delay(restlengths2_2[j]);
 				}
 
-				elements = sizeof(Melody2_3) / sizeof(short);
+				elements = sizeof(Melody2_3) / sizeof(int);
 				for (j = 0; j < elements; j++) {
-					set_PWM(Melody2_3[j]);
-					for (k = 0; k < notelengths2_3[j]; k++) {
-						while(!TimerFlag) {}
-						TimerFlag = 0;
-					}
-					set_PWM(0);
-					for (k = 0; k < restlengths2_3[j]; k++) {
-						while(!TimerFlag) {}
-						TimerFlag = 0;
-					}
+					tone(buzzer, Melody2_3[j]);
+					delay(notelengths2_3[j]);
+					noTone(buzzer);
+					delay(restlengths2_3[j]);
 				}
 
 				if (i == 0) {
-					elements = sizeof(Melody2_firstend) / sizeof(short);
+					elements = sizeof(Melody2_firstend) / sizeof(int);
 					for (j = 0; j < elements; j++) {
-						set_PWM(Melody2_firstend[j]);
-						for (k = 0; k < notelengths2_firstend[j]; k++) {
-							while(!TimerFlag) {}
-							TimerFlag = 0;
-						}
-						set_PWM(0);
-						for (k = 0; k < restlengths2_firstend[j]; k++) {
-							while(!TimerFlag) {}
-							TimerFlag = 0;
-						}
+						tone(buzzer, Melody2_firstend[j]);
+						delay(notelengths2_firstend[j]);
+						noTone(buzzer);
+						delay(restlengths2_firstend[j]);
 					}
-				} else {
-					elements = sizeof(Melody2_secondend) / sizeof(short);
+					} else {
+					elements = sizeof(Melody2_secondend) / sizeof(int);
 					for (j = 0; j < elements; j++) {
-						set_PWM(Melody2_secondend[j]);
-						for (k = 0; k < notelengths2_secondend[j]; k++) {
-							while(!TimerFlag) {}
-							TimerFlag = 0;
-						}
-						set_PWM(0);
-						for (k = 0; k < restlengths2_secondend[j]; k++) {
-							while(!TimerFlag) {}
-							TimerFlag = 0;
-						}
+						tone(buzzer, Melody2_secondend[j]);
+						delay(notelengths2_secondend[j]);
+						noTone(buzzer);
+						delay(restlengths2_secondend[j]);
 					}
 				}
 			}
-			
-			elements = sizeof(Melody1_1) / sizeof(short);
+
+			elements = sizeof(Melody1_1) / sizeof(int);
 			for (j = 0; j < elements; j++) {
-				set_PWM(Melody1_1[j]);
-				for (k = 0; k < notelengths1_1[j]; k++) {
-					while(!TimerFlag) {}
-					TimerFlag = 0;
-				}
-				set_PWM(0);
-				for (k = 0; k < restlengths1_1[j]; k++) {
-					while(!TimerFlag) {}
-					TimerFlag = 0;
-				}
+				tone(buzzer, Melody1_1[j]);
+				delay(notelengths1_1[j]);
+				noTone(buzzer);
+				delay(restlengths1_1[j]);
 			}
 			
-			elements = sizeof(Melody1_2) / sizeof(short);
+			elements = sizeof(Melody1_2) / sizeof(int);
 			for (j = 0; j < elements; j++) {
-				set_PWM(Melody1_2[j]);
-				for (k = 0; k < notelengths1_2[j]; k++) {
-					while(!TimerFlag) {}
-					TimerFlag = 0;
-				}
-				set_PWM(0);
-				for (k = 0; k < restlengths1_2[j]; k++) {
-					while(!TimerFlag) {}
-					TimerFlag = 0;
-				}
+				tone(buzzer, Melody1_2[j]);
+				delay(notelengths1_2[j]);
+				noTone(buzzer);
+				delay(restlengths1_2[j]);
 			}
-			
-			set_PWM(Ab4*2);
-			for (j = 0; j < 200; j++) {
-				while(!TimerFlag) {}
-				TimerFlag = 0;
-			}
-			set_PWM(0);
-			for (j = 0; j < 50; j++) {
-				while(!TimerFlag) {}
-				TimerFlag = 0;
-			}
-			
-			for (i = 0; i < 2; i++) {
-				elements = sizeof(Trio) / sizeof(short);
+
+			tone(buzzer, Ab4*2);
+			delay(200);
+			noTone(buzzer);
+			delay(50);
+
+			for (int i = 0; i < 2; i++) {
+				elements = sizeof(Trio) / sizeof(int);
 				for (j = 0; j < elements; j++) {
-					set_PWM(Trio[j]);
-					for (k = 0; k < notelengthsTrio[j]; k++) {
-						while(!TimerFlag) {}
-						TimerFlag = 0;
-					}
-					set_PWM(0);
-					for (k = 0; k < restlengthsTrio[j]; k++) {
-						while(!TimerFlag) {}
-						TimerFlag = 0;
-					}
+					tone(buzzer, Trio[j]);
+					delay(notelengthsTrio[j]);
+					noTone(buzzer);
+					delay(restlengthsTrio[j]);
 				}
 
 				if (i == 0) {
-					elements = sizeof(TrioFirstend) / sizeof(short);
+					elements = sizeof(TrioFirstend) / sizeof(int);
 					for (j = 0; j < elements; j++) {
-						set_PWM(TrioFirstend[j]);
-						for (k = 0; k < notelengthsTrioFirstend[j]; k++) {
-							while(!TimerFlag) {}
-							TimerFlag = 0;
-						}
-						set_PWM(0);
-						for (k = 0; k < restlengthsTrioFirstend[j]; k++) {
-							while(!TimerFlag) {}
-							TimerFlag = 0;
-						}
+						tone(buzzer, TrioFirstend[j]);
+						delay(notelengthsTrioFirstend[j]);
+						noTone(buzzer);
+						delay(restlengthsTrioFirstend[j]);
 					}
-				} else {
-					elements = sizeof(TrioSecondend) / sizeof(short);
+					} else {
+					elements = sizeof(TrioSecondend) / sizeof(int);
 					for (j = 0; j < elements; j++) {
-						set_PWM(TrioSecondend[j]);
-						for (k = 0; k < notelengthsTrioSecondend[j]; k++) {
-							while(!TimerFlag) {}
-							TimerFlag = 0;
-						}
-						set_PWM(0);
-						for (k = 0; k < restlengthsTrioSecondend[j]; k++) {
-							while(!TimerFlag) {}
-							TimerFlag = 0;
-						}
+						tone(buzzer, TrioSecondend[j]);
+						delay(notelengthsTrioSecondend[j]);
+						noTone(buzzer);
+						delay(restlengthsTrioSecondend[j]);
 					}
 				}
 			}
-		
-			for (i = 0; i < 2; i++) {
-				elements = sizeof(Ending_1) / sizeof(short);
+
+			for (int i = 0; i < 2; i++) {
+				elements = sizeof(Ending_1) / sizeof(int);
 				for (j = 0; j < elements; j++) {
-					set_PWM(Ending_1[j]);
-					for (k = 0; k < notelengthsEnding_1[j]; k++) {
-						while(!TimerFlag) {}
-						TimerFlag = 0;
-					}
-					set_PWM(0);
-					for (k = 0; k < restlengthsEnding_1[j]; k++) {
-						while(!TimerFlag) {}
-						TimerFlag = 0;
-					}
+					tone(buzzer, Ending_1[j]);
+					delay(notelengthsEnding_1[j]);
+					noTone(buzzer);
+					delay(restlengthsEnding_1[j]);
 				}
 
-				elements = sizeof(Ending_2) / sizeof(short);
+				elements = sizeof(Ending_2) / sizeof(int);
 				for (j = 0; j < elements; j++) {
-					set_PWM(Ending_2[j]);
-					for (k = 0; k < notelengthsEnding_2[j]; k++) {
-						while(!TimerFlag) {}
-						TimerFlag = 0;
-					}
-					set_PWM(0);
-					for (k = 0; k < restlengthsEnding_2[j]; k++) {
-						while(!TimerFlag) {}
-						TimerFlag = 0;
-					}
+					tone(buzzer, Ending_2[j]);
+					delay(notelengthsEnding_2[j]);
+					noTone(buzzer);
+					delay(restlengthsEnding_2[j]);
 				}
 
 				if (i == 0) {
-					elements = sizeof(EndingFirstend) / sizeof(short);
+					elements = sizeof(EndingFirstend) / sizeof(int);
 					for (j = 0; j < elements; j++) {
-						set_PWM(EndingFirstend[j]);
-						for (k = 0; k < notelengthsEndingFirstend[j]; k++) {
-							while(!TimerFlag) {}
-							TimerFlag = 0;
-						}
-						set_PWM(0);
-						for (k = 0; k < restlengthsEndingFirstend[j]; k++) {
-							while(!TimerFlag) {}
-							TimerFlag = 0;
-						}
+						tone(buzzer, EndingFirstend[j]);
+						delay(notelengthsEndingFirstend[j]);
+						noTone(buzzer);
+						delay(restlengthsEndingFirstend[j]);
 					}
-				} else {
-					elements = sizeof(EndingSecondend) / sizeof(short);
+					} else {
+					elements = sizeof(EndingSecondend) / sizeof(int);
 					for (j = 0; j < elements; j++) {
-						set_PWM(EndingSecondend[j]);
-						for (k = 0; k < notelengthsEndingSecondend[j]; k++) {
-							while(!TimerFlag) {}
-							TimerFlag = 0;
-						}
-						set_PWM(0);
-						for (k = 0; k < restlengthsEndingSecondend[j]; k++) {
-							while(!TimerFlag) {}
-							TimerFlag = 0;
-						}
+						tone(buzzer, EndingSecondend[j]);
+						delay(notelengthsEndingSecondend[j]);
+						noTone(buzzer);
+						delay(restlengthsEndingSecondend[j]);
 					}
 				}
 			}
-		
 		}
     }
     return 1;
