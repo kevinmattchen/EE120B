@@ -1,7 +1,7 @@
 /*	Author: kchen161
  *      Partner(s) Name: Kevin Chen
  *	Lab Section: 23
- *	Assignment: Lab #9  Exercise 2
+ *	Assignment: Lab #9  Exercise 3
  *	Exercise Description: [optional - include for your own benefit]
  *
  *	I acknowledge all content contained herein, excluding template or example
@@ -26,61 +26,45 @@
 #define Bb4 233.1*2
 #define B4 246.9*2
 
-short Melody1_1[]   = {Eb4/2, Ab4/2, Ab4, Eb4*2, Ab4, C4*2, Eb4*2, A_4/2, G4, Eb4*2, G4, Bb4, Eb4*2, Eb4/2, Ab4/2, Ab4, Eb4*2, Ab4, C4*2, Eb4*2, A_4/2, G4, Eb4*2, G4, Bb4, Eb4*2, Eb4/2, Eb4*2, E4/2, Ab4, B4, E4*2, Eb4/2, Eb4*2, Eb4/2, Eb4*2, E4/2, Ab4, B4, E4*2, Eb4/2, Eb4*2, Ab4/8, Ab4/4, B4/4, Ab4/2, Ab4/4, Ab4/2, B4/2, Ab4, Ab4/2, Ab4, B4, Ab4*2, Ab4, Ab4*2, B4*2, Ab4*4};
-short notelengths1_1[] = {200,   100,  100,    100,  100, 100,   100,  100,  100,  100, 100, 100,  300, 200,   100,  100,    100,  100, 100,   100,  100,  100,  100, 100, 100,  300, 100,   100,   100,  100,100, 100,  100,   100,   100,    100,  100, 100, 100, 100,  100,   100,   100,  100,    100,  100,   100,    100,   100, 100, 100,   100,100, 100,   100,  100,  100,    100};
-short restlengths1_1[] = {50,  25,      25,     25,   25, 25,     25,   25,   25,   25,  25,  25, 25*3, 50,  25,      25,     25,   25, 25,     25,   25,   25,   25,  25,  25, 25*3, 25,    25,    25,   25,  25,  25,   25,   25,   25,     25,    25,  25,   25,  25, 25, 25+250,     25,   25,    25,    25,   25,      25,   25,   25,  25,   25,  25,  25,    25,   25,   25,     25};
+short intro[]  = {G4*2, F4*2, Eb4*2, D4*2, Bb4, G4, D4, C4*2, D4*2, Eb4*2, F4*2, D4*2, G4, F4, D4};
+short Lintro[] = {600,  300,  300,   300, 300,  300, 300,300,  300,  300,  300,   600, 300, 300,1000};
+short Rintro[] = {150, 75,   75,    75,   75,  75,   75,75,   75,   75,   75,    150, 75,  75,  400};
 
-short Melody1_2[]   = {Ab4*4, Ab4*4, Ab4*4, Ab4*4, Ab4*4, C4*2, Eb4*4, F4*4, C4*4, Eb4*4, F4*4, C4*2, Ab4*2, B4, Bb4*2, B4*2, Ab4*2, Bb4*2, C4*4, C4*2, Ab4*2, C4*4, Ab4*2, Bb4*2, Ab4*2, Ab4*2, Ab4*2, Ab4*2, Ab4*2, Ab4*2, C4, Eb4*2, F4*2, C4*2, Eb4*2, F4*2, C4, Ab4, B4/2, Bb4, B4, Ab4, Bb4, C4*2, C4, Ab4, C4*2, Ab4, Bb4, Ab4};
-short notelengths1_2[] = {200,   200,    200,    100, 100,   100,  100,   100,   100,  100,  100,  100,   100,  100, 100,    100,  100,  100,   100,  100, 100,   100,   100,  200,   200  ,200,   200,    200,    100, 100,   100,  100,   100,   100,  100,  100,  100,   100,  100, 100,    100,  100,  100,   100,  100, 100,   100,   100,  200,   200  };
-short restlengths1_2[] = {50,    50,      50,     25,  25,   25,   25,     25,    25,   25,  25,   25,   25,    25,   25,    25,   25,   25,     25,   25,  25,   25,   25,    50,    300   ,50,  50,      50,     25,  25,   25,   25,     25,    25,   25,  25,   25,   25,    25,   25,    25,   25,   25,     25,   25,  25,   25,   25,    50,    50   };
+short A[]  = {C4*2, G4/4, G4, C4/2, G4/4, G4, G4/4, G4, C4/2, G4/4, G4, F4, G4, G4/4, G4, C4/2, G4/4, G4, G4/4, G4, C4/2, G4/4, G4, F4, C4*4, G4/4, C4/2, G4*2, G4/4, C4/2, Eb4*2, C4/2, D4*2, G4/4, C4*2, Bb4/4, C4*2, D4*2, Eb4*2, C4*2, Bb4, C4*2, G4, G4/4, C4*2, G4/4, C4/2, G4, G4/4, C4/2, Eb4*2, C4/2, D4*2, G4/4, C4*2, C4, D4, Eb4, F4, D4, Bb4/2, C4, G4/4, C4*2, Bb4, C4*2, D4*2, Eb4*2, F4*2, G4*2, Bb4*2};
+short LA[] = {300,  150, 150, 150,   150,300, 150, 150, 150,  150, 300, 300,300,150, 150, 150, 150,  300, 150, 150, 150,   150, 300,300,300,  150,  150,  150, 150,   300,  150, 150,  150,   150,  300,   300,   300,  300,   300,   300, 300, 300,  300,300,  300, 150,   150, 150,  150,  300, 150,  150,  150,   150, 300,  150,150,300, 300, 300, 300, 300, 300,  75,   75,  75,   75,   75,     75,   75,    75 };
+short RA[] = {75, 75/2,75/2, 75/2, 75/2,75,75/2, 75/2,75/2,75/2, 75 ,75,   75,75/2,75/2,75/2,75/2, 75,  75/2,75/2,75/2,75/2,   75, 75, 75,   75/2,75/2,75/2,75/2,    75,  75/2,75/2,75/2,75/2,     75,    75,     75,   75,   75,    75,  75,  75,   75, 75,  75,   75/2, 75/2, 75/2,75/2,  75, 75/2, 75/2,75/2,  75/2,  75,  75/2,75/2,75, 75,  75, 75, 75,    75, 75/4, 75/4,75/4,75/4, 75/4,   75/4,  75/4, 75/4  };
 
-short Melody2_1[]   = {A_4/2, Bb4/2, G4*2, Eb4*4, G4*2, Bb4*2, D4*4, Db4, G4*2, Db4*4, G4*2, Bb4*2, C4*4, Eb4/2, Eb4*2, Bb4*2, Eb4*2, Ab4/2, C4*2, Ab4*2, C4*2, Eb4*2, F4*2, C4, C4*2, Ab4*2, C4*2, Eb4*2, F4*2, Ab4/2, C4*2, F4*2};
-short notelengths2_1[] = {200,   100,    100,  100,  100,   100,  100,  100, 100,   100,   100,  100,  100,  100,   100,  100,   100,     100,   100,  100,   100,   100,  100, 100,100,  100,  100,    100,  100,  100,   100,  200 };
-short restlengths2_1[] = {50,    25,     25,    25,  25,  25,    25,   25,    25,   25,   25,    25,   25,    25,    25,   25,   25,       25,    25,    25,   25,   25,   25,   25, 25,  25,   25,    25,   25,  25,     25,    50  };
+short B[]   = {C4*4, G4/4, C4/2, G4*2, G4/4, C4/2, Eb4*4, C4/2, D4*4, G4/4, C4*4, Bb4/4, C4*2, D4*2, Eb4*2, C4*2, Bb4, C4*2, G4, G4*2, Ab4*2, Bb4*2, B4*2, C4*4, G4/4, C4/2, G4*2, G4/4, C4/2, Eb4*4, C4/2, D4*4, G4/4, C4*4, C4, D4};
+short LB[]  = {300,  150,  150,  150,  150,   300, 150,   150,  150,   150, 300,  300,   300,  300, 300,   300,  300,   300,300, 75,   75,    75,    75,   300,  150,  150,  150,  150,   300, 150,   150,  150,   150, 300, 150, 150};
+short RB[] = {75, 75/2,  75/2, 75/2, 75/2,  75,75/2, 75/2, 75/2,  75/2,   75,  75,   75,  75,     75,    75,  75,    75,75,75/4,  75/4,  75/4,  75/4,   75,  75/2,  75/2,  75/2,75/2,75,75/2,75/2,    75/2,  75/2,  75,75/2,75/2};
+/*
+short NotCoda[]  = {Eb4, F4, D4, Bb4/2, C4, C4/2, G4/4};
+short LNotCoda[] = {300,300,300, 300,  600, 300,  300 };
+short RNotCoda[] = {75, 75, 75, 75,   150, 75,    75 };
+*/
+short C[]   = {Ab4, Ab4, F4/4, Ab4, Ab4, Ab4, C4/2, Ab4, G4, G4, D4/2, G4, G4, G4, G4/4, G4, Ab4, Ab4, F4/4, Ab4, Ab4, Ab4, C4/2, Ab4, G4, G4, F4/2, G4, G4, G4/2};
+short LC[]  = {150, 150, 150, 150,  150, 150, 150, 150, 150, 150,150, 150, 150,150,150,150, 150,150, 150,  150,  150, 150,  150,  150,  150,150,150,150,250, 250};
+short RC[] = {75/2,75/2,75/2,75/2,75/2,75/2,75/2,75/2,75/2,75/2,75/2,75/2,75/2,75/2,75/2,75/2,75/2,75/2,75/2,75/2,75/2,75/2,75/2,75/2,75/2,75/2,75/2,75/2,125, 125};
 
-short Melody2_2[]   = {Bb4/2, Eb4*2, G4*2, Bb4, Db4*2, F4*2, Db4, Eb4*2, G4*2, Bb4, Db4*2, F4*2, Bb4/2, Db4*2, F4*2, C4, C4*2, Ab4*2, C4*2, Eb4*2, F4*2, C4, C4*2, Ab4*2, C4*2, Eb4*2, F4*2, Ab4/2, C4*2, F4*2};
-short notelengths2_2[] = {100,     100,   100,  100,100,  100,   100,  100,  100,  100, 100,  100,  100,   100,   200, 100,  100,   100,   100,   100,  100,  100,100, 100,    100,  100,    100,   100,  100, 200 };
-short restlengths2_2[] = {25,      25,    25,   25,   25,  25,  25,    25,   25,    25,  25,   25,   25,     25,  50,   25,   25,    25,    25,   25,  25,     25,   25,  25,    25,  25,    25,    25,   25,   50 };
+short C_2[] = {Ab4*2, G4*2, F4*2, Ab4/2, Eb4*2, F4*2, G4*2, C4*2, D4*2, C4*2, G4/2, Bb4, G4/2, F4*2, F4*2, F4*2, Eb4*2, D4*2, F4/2, Eb4*2, F4*2, Eb4*2, Ab4/2, F4*2, Ab4/2, G4*2, Ab4/2, Eb4*2, Ab4/2};
+short LC_2[] = {450,   150, 150,  150,   150,   150,  300,  150, 150,    150,   150, 150,150,  225, 75,   150,  150,   150,   150,   150,  150,  150,   150,  150,   150,   150,  150,  150,   150   };
+short RC_2[] = {75+75/2,75/2,75/2,75/2,75/2,75/2,75, 75/2,75/2,  75/2,  75/2,75/2,75/2,75/2+75/4,75/4,75/2,75/2,75/2,75/2,75/2,     75/2,75/2,75/2,   75/2,75/2,75/2,      75/2,75/2,75/2      };
 
-short Melody2_3[]   = {Bb4/2, G4*2, Eb4*4, G4*2, Bb4*2, D4*4, Db4, G4*2, Db4*4, G4*2, Bb4*2, C4*4, Eb4/2, G4*2, Bb4*2, Eb4*2, Ab4/2, C4*2, Ab4*2, C4*2, Eb4*2, F4*2, C4, C4*2, Ab4*2, Ab4*2, G4*2, Gb4*2, F4/2, F4, A_4, C4*2, F4*2, C4*2, A_4, F4, Bb4/2, F4, Bb4, Db4*2, F4*2, Db4*2, C4*2, Bb4/2, C4*2, Eb4/2, Bb4, G4/2, Eb4};
-short notelengths2_3[] = {100,    100,  100,   100,  100,  100,  100,  100,   100, 100,   100,  100,  100,    100,   100,   100,  100,   100,  100,   100,  100,  100, 100, 100,  200,  200,     200, 200,   100, 100, 100,  100,  100, 100,  100, 100, 100,100,  100,  100,  200,  200,   200,  100,  100,  100,   100,   100, 100};
-short restlengths2_3[] = {25,       25,   25, 25,     25,   25,   25,  25,    25,  25,    25,   25,   25,     25,    25,      25,   25,    25,   25,  25,    25,    25,  25,   25, 50,  50,     50,  50,     25,   25, 25,    25,  25,   25,   25,  25,  25,  25,  25,  25,   50,  50,     50,     25,   25,  25,    25,   25,   25};
+short D_2[]   = {Ab4*2, G4*2, F4*2, Ab4/2, G4*2, Ab4*2, C4*4, G4*2, D4*2, Eb4*2, G4/2, C4*2, G4/2, D4*2, D4*2, D4*2, F4*2, D4*2, Bb4, G4, Bb4, C4*2, G4/2, G4/2, Bb4};
+short LD_2[]  = {450,   150,  150,   150,  150,  150,   300,   150, 150,  150,   150,  150,  150,  225,  75,   150,   150, 150,   150,150,150, 450,  150,  300,  300};
+short RD_2[] = {75+75/2,75/2,75/2,75/2,75/2,   75/2,  75, 75/2,  75/2,75/2,  75/2,  75/2, 75/2,75/2+75/4,75/4,75/2,75/2, 75/2,75/2,75/2,75/2,75+75/2,75/2,75,75};
 
-short Melody2_firstend[]  = {Ab4, Eb4*2, Eb4*2};
-short notelengths2_firstend[] = {200,  200,    200};
-short restlengths2_firstend[] = {50,    50,     50};
+short E[]   = {Eb4*2, Eb4*2, Eb4*2, F4*2, G4*2, G4*2, F4*2, Eb4*2, D4*2, D4*2, D4*2, Eb4*2, D4*2, C4*2, C4*2, C4*2, D4*2, Eb4*2, Eb4*2, D4*2, C4*2, Bb4, Bb4, Bb4, C4*2, D4*2, Ab4, Ab4, Ab4, Bb4, C4*2, C4*2, Bb4, Ab4, G4, Bb4, Eb4*2, F4*2, Eb4*2, Bb4, Eb4*2, Eb4*2, Eb4*2, F4*2, Gb4*2, Gb4*2, Ab4*2, Gb4*2, F4*2, C4, D4, Bb4/2};
+short LE[]  = {225,    75,    150,   150,  150,  150, 150,  150,    225, 75,   150,  150,   600,  225,  75,  150,    150,  150, 150,   150,   150,  225,  75, 150,150, 600,  225, 75,  150,150, 150,   150,  150,  150,225,75,  150,  150,   300,   300,  225, 75,      150,  150, 150,   150,     150,  150,   300, 300, 300, 300 };
+short RE[] = {75/2+75/4,75/4,75/2,75/2, 75/2,75/2,75/2,75/2,75/2+75/4,75/4,75/2,75/2, 150,75/2+75/4,75/4,75/2,75/2,  75/2, 75/2, 75/2,75/2,75/2+75/4,75/4,75/2,75/2,150,75/2+75/4,75/4,75/2,75/2,75/2,75/2,75/2,75/2,75/2+75/4,75/4,75/2,75/2,75,75,75/2+75/4,75/4,75/2,   75/2,75/2,75/2,   75/2,    75/2,   75,    75, 75,   75 };
 
-short Melody2_secondend[]  = {Ab4/2, Ab4, C4*2, Eb4*2, Ab4*2};
-short notelengths2_secondend[] = {100,  100,  100,  100,    200};
-short restlengths2_secondend[] = {25,    25,   25,   25,     50};
+short F[]   = {G4*2, Eb4, Eb4, F4, G4, G4*2, F4, Eb4,                  Bb4*2, D4, D4, Eb4, D4, Bb4*2, Ab4*2, C4, C4, D4, Eb4, Ab4*2, D4, C4,               G4*2, Bb4/2, Bb4/2, C4, D4, G4*2, Ab4*2, Ab4/2, Ab4/2, Bb4/2, C4, Ab4*2, Eb4, F4, Bb4*2, G4, G4, Bb4, G4, Bb4*2, F4, Eb4, G4*2, G4, G4, G4, G4*2, G4, G4, G4};
+short LF[]  = {225,  75, 150, 150, 150,150,150, 150,                   225,  75,  150,150, 250, 250,   225,  75, 150,150,150, 150,  150,150,               225,  75,    150,  150,250, 250,  225,   75,   150,    150,  150, 150,  150,150,  225,  75, 150,150, 150, 150,   150,150, 250, 150, 75, 75,   250, 150, 75, 75};
+short RF[] = {75/2+75/4,75/4,75/2,75/2,75/2,75/2,75/2,75/2,    75/2+75/4, 75/4, 75/2,75/2,125, 125,75/2+75/4,75/4,75/2,75/2,75/2,75/2,75/2,75/2,    75/2+75/4, 75/4,  75/2,  75/2, 125,  125,75/2+75/4,75/4,75/2,  75/2,  75/2,75/2,75/2,75/2,75/2+75/4,75/4,75/2,75/2,75/2,75/2,75/2,75/2,125,75/2,75/4,75/4,125, 75/2, 75/4,75/4};
 
-short Trio[]           = {Ab4*2, Gb4, Ab4*2, Eb4*2, Bb4, Ab4*2, Gb4, Ab4*2, Eb4*2, Bb4, Eb4*2, Ab4, Db4*2, Bb4, Db4*2, F4*2, Ab4, Db4*2, F4*2, Bb4, Db4*2, F4*2, Ab4, F4*2, Bb4, F4*2, Ab4*2, Gb4, Ab4*2, Eb4*2, Bb4, Ab4*2, Gb4, Ab4*2, Eb4*2, Bb4, Eb4*2, Ab4, Db4*2, Bb4, Db4*2, F4*2, Ab4, Db4*2, F4*2, Bb4, Db4*2, F4*2, Ab4, F4*2, A_4, F4*2, Bb4*2, Ab4, Bb4*2, F4*2, C4*2, Bb4*2, Ab4, Bb4*2, F4*2, C4*2, F4*2, Eb4/2, Eb4*2, Bb4*2, Eb4*2, Gb4*2, C4*4, Gb4, Eb4, Bb4*2, Eb4*2, Gb4*2, C4*4, Eb4*2, Bb4*2, Db4*4, Db4*4, C4*4, Bb4*2, F4*2, Db4*2, Eb4*2, Gb4*2, Bb4, F4*2, F4*2, Db4*2, Eb4*2, F4*2, C4*2, Eb4*2, Db4*2};
-short notelengthsTrio[] = {200,  100, 200,    100, 200,  200,  100, 200,    100, 100,  100, 100,   100,   100,  100,  100,  100,  100,   100, 100,   100,   100,  200, 100,  100,  100, 200,  100, 200,    100,  200, 200,  100,  200,  100,  100,  100,   100, 100,  100,   100,   100, 100,  100,   100,  100,   100,   100,200, 100,   100,   100, 200,  100, 200,   100,  200,  200,   100,  200,  100,  100,   100,  100,  100,   100,    100,   100,  100, 100,100,  100,   100,   100, 200, 100,     200,   200,    200,200, 200,  100,  100,   100,       200,  100, 200,  100,   100,  100,   200,   100,  100,   200 };
-short restlengthsTrio[] = {50,   25,  50,     25,  50,   50,   25,   50,     25,  25,   25, 25,  25,       25,  25,     25,   25,  25,   25,     25,  25,   25,   50,   25,   25,  25,   50,  25,  50,      25,   50,  50,  25,    50,   25,   25,   25,   25,   25,  25,    25,    25,   25,   25,   25,    25,    25,   25, 50,  25,     25,    25,  50,   25,  50,    25,  50,   50,    25,    50,  25,    25,   25,   25,   25,   25,     25,      25,  25,   25, 25,    25,   25,   25,  50,  25,     50,     50,     50,   50, 50,    25,  25,     25,       50,   25,  50,    25,   25,   25,     50,    25,   25,     50};
-
-short TrioFirstend[]              = {Ab4*2, F4*2, Ab4*2, F4*2, Ab4*2, F4*2};
-short notelengthsTrioFirstend[]  = {200, 100,  100,    100,  100,   100};
-short restlengthsTrioFirstend[]  = {50,    25,   25,   25,   25,    25  };
-
-short TrioSecondend[]               = {Db4*2, F4*2, Ab4*2, Db4*4, C4};
-short notelengthsTrioSecondend[]   = {100,    100,  100,  200,  200};
-short restlengthsTrioSecondend[]   = {25,     25,   25,   50,    50};
-
-short Ending_1[]          = {Ab4*2, F4*2, Ab4*2, F4*2, Ab4*2, Bb4*2, C4*4, Bb4*2, Ab4*2, F4*2, Eb4*2, F4*2, Eb4, C4*2, Eb4/2, Ab4/2, Eb4*2, F4*2, C4*2, Eb4*2, F4*2, A_4/2, C4*2, Eb4*2, F4*2, Bb4};
-short notelengthsEnding_1[] = {200,   200,  200,    200,  200,   100,  200,  100,   100,   100,   100,   100, 100, 300,  200,    100,   100,  100,  100,  100,  100,   100,   100,   200,   100, 300};
-short restlengthsEnding_1[] = {50,    50,   50,      50,  50,     25,   50,   25,   25,     25,    25,    25,  25,  75,  50,    25,     25,    25,  25,   25,    25,    25,   25,   50,     25,  75 };
-
-short Ending_2[]             = {A_4/2, Bb4/2, Db4*2, F4*2, Bb4, Db4*2, F4*2, G4/2, C4*2, Ab4/2, Eb4*2, F4*2, C4*2, Eb4*2, F4*2, C4, C4*2, Ab4/2, Eb4*2, F4*2, C4*2, Eb4*2, F4*2, C4, Eb4*2, Ab4*2, F4*2, Ab4*2, F4*2, Ab4*2, Bb4*2, C4*4, Bb4*2, Ab4*2, F4*2, Ab4*2, F4*2, Eb4*2, Ab4*2, Eb4/2, C4*2, Ab4/2, Eb4*2, F4*2, C4*2, Eb4*2, F4*2, C4, Ab4, Bb4, Ab4, Ab4, Bb4, Ab4, Bb4, C4*2, Ab4, Bb4, C4*2, E4/2, Ab4, Bb4, C4*2, Ab4, G4/2, Bb4, G4/2, Eb4};
-short notelengthsEnding_2[] = {200,  100,     100,   100, 100,   100,   100, 100,  100, 100,   100,   100,   100,   100, 100, 100,  100, 100,   100,   100,   100,  100,  100,  100, 100,  200,    200,  200,   200, 200,   100,   200,  100,   100,   100,  200,   200,   100,  100,   100,  100,    100,   100,  100,   100,  100,   100,100, 200, 100, 200, 200, 100, 200, 100, 100, 100,  100, 100, 100,   200, 100, 100,  100,  100, 100, 100, 100 };
-short restlengthsEnding_2[] = {50,    25,     25,    25,  25,   25,    25,     25,   25,  25,   25,   25,   25,       25,  25, 25,  25,   25,    25,   25,     25,  25,   25,    25,   25,  50,     50,  50,    50,  50,     25,    50,  25,    25,  25,     50,     50,    25,    25,   25,   25,   25,     25,    25,  25,    25,     25,  25, 50, 25,   50,  50, 25,   50,  25,  25,  25,    25,  25,  25,  50,  25,   25,  25,   25,   25,  25,   25};
-
-short EndingFirstend[] = {Ab4, Eb4*2, Eb4*2, C4};
-short notelengthsEndingFirstend[] = {200, 200, 200, 200};
-short restlengthsEndingFirstend[] = {50, 50, 50, 50};
-
-short EndingSecondend[] = {Ab4, Eb4*2, Ab4*2};
-short notelengthsEndingSecondend[] = {200, 200, 200};
-short restlengthsEndingSecondend[] = {50, 50, 50};
+short G[]   = {C4*2, B4/2, C4, B4/2, C4, D4, Eb4, F4, G4, Ab4, G4, F4, Eb4, F4, Eb4, D4, Eb4, B4/2, C4, B4/2, D4, D4, Eb4, F4, C4, Ab4, G4, F4, Eb4, F4, Eb4, D4, C4, C4, B4/2, C4, D4, C4, D4, Eb4, Eb4, G4, Ab4, G4, C4, Bb4, C4*2, D4*2, Bb4/2, D4*2, C4*2, Bb4, C4, Bb4, Ab4, G4, G4/2, G4, F4, Eb4, F4, Eb4, D4, Bb4/2, C4*2, B4/2, C4, B4/2, C4, D4, Eb4, F4, G4, Ab4, G4, F4, Eb4, F4, Eb4, D4, Eb4, B4/2, C4, B4/2, D4, D4, Eb4, F4, C4, Ab4, G4, F4, C4, F4, D4, D4, Eb4, C4, Bb4/2, C4, F4, C4, D4, Eb4, D4, G4, Ab4, G4, Bb4/2, Bb4, C4*2, D4*2, C4, D4*2, Eb4*2, F4*2, G4*2, Ab4*2, Bb4*2, B4*2, C4*4};
+short LG[] = {75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 150};
+short RG[] = {75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/4,75/2};
 	
 volatile unsigned char TimerFlag = 0;
 
@@ -174,156 +158,247 @@ int main(void) {
 		sw = PINA & 0x01;
 		
 		if (sw) {
-			for (i = 0; i < 2; i++) {
-				elements = sizeof(Melody1_1) / sizeof(int);
-				for (j = 0; j < elements; j++) {
-					tone(buzzer, Melody1_1[j]);
-					delay(notelengths1_1[j]);
-					noTone(buzzer);
-					delay(restlengths1_1[j]);
-				}
-				
-				elements = sizeof(Melody1_2) / sizeof(int);
-				for (j = 0; j < elements; j++) {
-					tone(buzzer, Melody1_2[j]);
-					delay(notelengths1_2[j]);
-					noTone(buzzer);
-					delay(restlengths1_2[j]);
-				}
+			elements = sizeof(intro) / sizeof(int);
+			for (i = 0; i < elements; i++) {
+			  tone(buzzer, intro[i]);
+			  delay(Lintro[i]);
+			  noTone(buzzer);
+			  delay(Rintro[i]);
 			}
 
-			for (i = 0; i < 2; i++) {
-				elements = sizeof(Melody2_1) / sizeof(int);
-				for (j = 0; j < elements; j++) {
-					tone(buzzer, Melody2_1[j]);
-					delay(notelengths2_1[j]);
-					noTone(buzzer);
-					delay(restlengths2_1[j]);
-				}
-
-				elements = sizeof(Melody2_2) / sizeof(int);
-				for (j = 0; j < elements; j++) {
-					tone(buzzer, Melody2_2[j]);
-					delay(notelengths2_2[j]);
-					noTone(buzzer);
-					delay(restlengths2_2[j]);
-				}
-
-				elements = sizeof(Melody2_3) / sizeof(int);
-				for (j = 0; j < elements; j++) {
-					tone(buzzer, Melody2_3[j]);
-					delay(notelengths2_3[j]);
-					noTone(buzzer);
-					delay(restlengths2_3[j]);
-				}
-
-				if (i == 0) {
-					elements = sizeof(Melody2_firstend) / sizeof(int);
-					for (j = 0; j < elements; j++) {
-						tone(buzzer, Melody2_firstend[j]);
-						delay(notelengths2_firstend[j]);
-						noTone(buzzer);
-						delay(restlengths2_firstend[j]);
-					}
-					} else {
-					elements = sizeof(Melody2_secondend) / sizeof(int);
-					for (j = 0; j < elements; j++) {
-						tone(buzzer, Melody2_secondend[j]);
-						delay(notelengths2_secondend[j]);
-						noTone(buzzer);
-						delay(restlengths2_secondend[j]);
-					}
-				}
+			elements = sizeof(A) / sizeof(int);
+			for (i = 0; i < elements; i++) {
+			  tone(buzzer, A[i]);
+			  delay(LA[i]);
+			  noTone(buzzer);
+			  delay(RA[i]);
 			}
 
-			elements = sizeof(Melody1_1) / sizeof(int);
-			for (j = 0; j < elements; j++) {
-				tone(buzzer, Melody1_1[j]);
-				delay(notelengths1_1[j]);
+			elements = sizeof(B) / sizeof(int);
+			for (i = 0; i < elements; i++) {
+			  tone(buzzer, B[i]);
+			  delay(LB[i]);
+			  noTone(buzzer);
+			  delay(RB[i]);
+			}
+		/*
+			elements = sizeof(NotCoda) / sizeof(int);
+			for (i = 0; i < elements; i++) {
+			  tone(buzzer, NotCoda[i]);
+			  delay(LNotCoda[i]);
+			  noTone(buzzer);
+			  delay(RNotCoda[i]);
+			}
+		*/
+
+			tone(buzzer, Eb4);
+			delay(300);
+			noTone(buzzer);
+			delay(75);
+
+			tone(buzzer, F4);
+			delay(300);
+			noTone(buzzer);
+			delay(75);
+
+			tone(buzzer, D4);
+			delay(300);
+			noTone(buzzer);
+			delay(75);
+
+			tone(buzzer, Bb4/2);
+			delay(300);
+			noTone(buzzer);
+			delay(75);
+
+			tone(buzzer, C4);
+			delay(300);
+			noTone(buzzer);
+			delay(75);
+
+			tone(buzzer, Eb4/2);
+			delay(300);
+			noTone(buzzer);
+			delay(75);
+
+			tone(buzzer, C4/2);
+			delay(300);
+			noTone(buzzer);
+			delay(75);
+
+			tone(buzzer, G4/4);
+			delay(300);
+			noTone(buzzer);
+			delay(75);
+    
+			for (j = 0; j < 2; j++) {
+			  elements = sizeof(C) / sizeof(int);
+			  for (i = 0; i < elements; i++) {
+				tone(buzzer, C[i]);
+				delay(LC[i]);
 				noTone(buzzer);
-				delay(restlengths1_1[j]);
-			}
-			
-			elements = sizeof(Melody1_2) / sizeof(int);
-			for (j = 0; j < elements; j++) {
-				tone(buzzer, Melody1_2[j]);
-				delay(notelengths1_2[j]);
+				delay(RC[i]);
+			  }
+  
+			  elements = sizeof(C_2) / sizeof(int);
+			  for (i = 0; i < elements; i++) {
+				tone(buzzer, C_2[i]);
+				delay(LC_2[i]);
 				noTone(buzzer);
-				delay(restlengths1_2[j]);
+				delay(RC_2[i]);
+			  }
+  
+			  elements = sizeof(C) / sizeof(int);
+			  for (i = 0; i < elements; i++) {
+				tone(buzzer, C[i]);
+				delay(LC[i]);
+				noTone(buzzer);
+				delay(RC[i]);
+			  }
+  
+			  elements = sizeof(D_2) / sizeof(int);
+			  for (i = 0; i < elements; i++) {
+				tone(buzzer, D_2[i]);
+				delay(LD_2[i]);
+				noTone(buzzer);
+				delay(RD_2[i]);
+			  }
+  
+			  elements = sizeof(E) / sizeof(int);
+			  for (i = 0; i < elements; i++) {
+				tone(buzzer, E[i]);
+				delay(LE[i]);
+				noTone(buzzer);
+				delay(RE[i]);
+			  }
+  
+			  elements = sizeof(F) / sizeof(int);
+			  for (i = 0; i < elements; i++) {
+				tone(buzzer, F[i]);
+				delay(LF[i]);
+				noTone(buzzer);
+				delay(RF[i]);
+			  }
+			  tone(buzzer, G4*2);
+			  delay(600);
+			  noTone(buzzer);
+			  delay(900);
+  
+			  elements = sizeof(G) / sizeof(int);
+			  for (i = 0; i < elements; i++) {
+				tone(buzzer, G[i]);
+				delay(LG[i]);
+				noTone(buzzer);
+				delay(RG[i]);
+			  }
+			  noTone(buzzer);
+			  delay(375*3/2);
 			}
 
-			tone(buzzer, Ab4*2);
-			delay(200);
+			elements = sizeof(A) / sizeof(int);
+			for (i = 0; i < elements; i++) {
+			  tone(buzzer, A[i]);
+			  delay(LA[i]);
+			  noTone(buzzer);
+			  delay(RA[i]);
+			}
+
+			elements = sizeof(B) / sizeof(int);
+			for (i = 0; i < elements; i++) {
+			  tone(buzzer, B[i]);
+			  delay(LB[i]);
+			  noTone(buzzer);
+			  delay(RB[i]);
+			}
+
+			tone(buzzer, C4);
+			delay(300);
+			noTone(buzzer);
+			delay(75+4*375);
+
+			tone(buzzer, G4*2);
+			delay(1100);
+			noTone(buzzer);
+			delay(100);
+
+			tone(buzzer, F4*2);
+			delay(550);
 			noTone(buzzer);
 			delay(50);
 
-			for (int i = 0; i < 2; i++) {
-				elements = sizeof(Trio) / sizeof(int);
-				for (j = 0; j < elements; j++) {
-					tone(buzzer, Trio[j]);
-					delay(notelengthsTrio[j]);
-					noTone(buzzer);
-					delay(restlengthsTrio[j]);
-				}
+			tone(buzzer, Eb4*2);
+			delay(550);
+			noTone(buzzer);
+			delay(50);
 
-				if (i == 0) {
-					elements = sizeof(TrioFirstend) / sizeof(int);
-					for (j = 0; j < elements; j++) {
-						tone(buzzer, TrioFirstend[j]);
-						delay(notelengthsTrioFirstend[j]);
-						noTone(buzzer);
-						delay(restlengthsTrioFirstend[j]);
-					}
-					} else {
-					elements = sizeof(TrioSecondend) / sizeof(int);
-					for (j = 0; j < elements; j++) {
-						tone(buzzer, TrioSecondend[j]);
-						delay(notelengthsTrioSecondend[j]);
-						noTone(buzzer);
-						delay(restlengthsTrioSecondend[j]);
-					}
-				}
-			}
+			tone(buzzer, D4*2);
+			delay(550);
+			noTone(buzzer);
+			delay(50);
 
-			for (int i = 0; i < 2; i++) {
-				elements = sizeof(Ending_1) / sizeof(int);
-				for (j = 0; j < elements; j++) {
-					tone(buzzer, Ending_1[j]);
-					delay(notelengthsEnding_1[j]);
-					noTone(buzzer);
-					delay(restlengthsEnding_1[j]);
-				}
+			tone(buzzer, Bb4);
+			delay(550);
+			noTone(buzzer);
+			delay(50);
 
-				elements = sizeof(Ending_2) / sizeof(int);
-				for (j = 0; j < elements; j++) {
-					tone(buzzer, Ending_2[j]);
-					delay(notelengthsEnding_2[j]);
-					noTone(buzzer);
-					delay(restlengthsEnding_2[j]);
-				}
+			tone(buzzer, G4);
+			delay(550);
+			noTone(buzzer);
+			delay(50);
 
-				if (i == 0) {
-					elements = sizeof(EndingFirstend) / sizeof(int);
-					for (j = 0; j < elements; j++) {
-						tone(buzzer, EndingFirstend[j]);
-						delay(notelengthsEndingFirstend[j]);
-						noTone(buzzer);
-						delay(restlengthsEndingFirstend[j]);
-					}
-					} else {
-					elements = sizeof(EndingSecondend) / sizeof(int);
-					for (j = 0; j < elements; j++) {
-						tone(buzzer, EndingSecondend[j]);
-						delay(notelengthsEndingSecondend[j]);
-						noTone(buzzer);
-						delay(restlengthsEndingSecondend[j]);
-					}
-				}
-			}
-			
-			sw = PINA & 0x01;
-			while(sw) { sw = PINA & 0x01; }
+			tone(buzzer,D4);
+			delay(550);
+			noTone(buzzer);
+			delay(50);
+
+			tone(buzzer, C4*2);
+			delay(550);
+			noTone(buzzer);
+			delay(50);
+
+			tone(buzzer, D4*2);
+			delay(550);
+			noTone(buzzer);
+			delay(50);
+
+			tone(buzzer, Eb4*2);
+			delay(550);
+			noTone(buzzer);
+			delay(50);
+
+			tone(buzzer, F4*2);
+			delay(550);
+			noTone(buzzer);
+			delay(50);
+
+			tone(buzzer, D4*2);
+			delay(1100);
+			noTone(buzzer);
+			delay(100);
+
+			tone(buzzer, G4);
+			delay(550);
+			noTone(buzzer);
+			delay(50);
+
+			tone(buzzer, F4);
+			delay(550);
+			noTone(buzzer);
+			delay(50);
+
+			tone(buzzer, D4);
+			delay(2400);
+			noTone(buzzer);
+			delay(1100);
+
+			tone(buzzer, C4*4);
+			delay(400);
+			noTone(buzzer);
+			delay(50);
 		}
+
+		sw = PINA & 0x01;
+		while (sw) { sw = PINA & 0x01; }
     }
     return 1;
 }
