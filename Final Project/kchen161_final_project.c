@@ -8,37 +8,37 @@
  *	code, is my own original work.
  */
 #include <avr/io.h>
+#include <stdio.h>
 #ifdef _SIMULATE_
 #include "simAVRHeader.h"
 #endif
 #include <avr/interrupt.h>
-
-#define FOSC 8000000 // Clock Speed
-#define BAUD 9600
-#define MYUBRR FOSC/16/BAUD-1
+#include "usart_ATmega1284.h"
+#include "io.c"
 
 #if 1 //IR remote codes
-	#define Power       16753245
-	#define FuncStop    16769565
-	#define VolUp       16736925
-	#define VolDown     16769055
-	#define Previous    16720605
-	#define Next        16761405
-	#define PlayPause   16712445
-	#define Down        16769055
-	#define Up          16748655
-	#define Eq          16750695
-	#define StRept      16756815
-	#define Remote0     16738455
-	#define Remote1     16724175
-	#define Remote2     16718055
-	#define Remote3     16743045
-	#define Remote4     16716015
-	#define Remote5     16726215
-	#define Remote6     16734885
-	#define Remote7     16728765
-	#define Remote8     16730805
-	#define Remote9     16732845
+	#define Power       'W'
+	#define FuncStop    'F'
+	#define VolUp       '+'
+	#define VolDown     '-'
+	#define Previous    'R'
+	#define Next        'N'
+	#define PlayPause   'P'
+	#define Down        'D'
+	#define Up          'U'
+	#define Eq          'E'
+	#define StRept      'S'
+	#define Remote0     '0'
+	#define Remote1     '1'
+	#define Remote2     '2'
+	#define Remote3     '3'
+	#define Remote4     '4'
+	#define Remote5     '5'
+	#define Remote6     '6'
+	#define Remote7     '7'
+	#define Remote8     '8'
+	#define Remote9     '9'
+	#define hold        'H'
 #endif
 
 #if 1 //music
@@ -217,7 +217,8 @@
 
 #if 1 //global variables
 	unsigned char pause = 1;
-	unsigned int remote;
+	unsigned char remote;
+	unsigned char melodyDone = 1;
 #endif
 
 typedef struct _task {
@@ -351,38 +352,6 @@ unsigned char GetBit(unsigned char port, unsigned char number) {
 	return (port & (0x01 << number));
 }
 
-void USART_Init( unsigned int ubrr) {
-	/*Set baud rate */
-	UBRR0H = (unsigned char)(ubrr>>8);
-	UBRR0L = (unsigned char)ubrr;
-	/* Enable receiver and transmitter */
-	UCSR0B = (1<<RXEN0)|(1<<TXEN0);
-	/* Set frame format: 8data, 2stop bit */
-	UCSR0C = (1<<USBS0)|(3<<UCSZ00);
-}
-unsigned int USART_Receive( void )
-{
-	unsigned char status, resh, resl;
-	/* Wait for data to be received */
-	while ( !(UCSR0A & (1<<RXC0)) )
-	;
-	/* Get status and 9th bit, then data */
-	/* from buffer */
-	status = UCSR0A;
-	resh = UCSR0B;
-	resl = UDR0;
-	/* If error, return -1 */
-	if ( status & ((1<<FE0)|(1<<DOR0)|(1<<UPE0)) )
-	return -1;
-	/* Filter the 9th bit, then return */
-	resh = (resh >> 1) & 0x01;
-	return ((resh << 8) | resl);
-}
-void USART_Flush( void )
-{
-	unsigned char dummy;
-	while ( UCSR0A & (1<<RXC0) ) dummy = UDR0;
-}
 #endif
 #if 1 //tick function definitions
 enum States1 {init1, wait1, play1, length1, rest1, pause1};
@@ -394,32 +363,34 @@ int tickSM_play1(int state) {
 		case init1:
 		state= wait1;
 		i = 0; j = 0; k = 0;
+		noTone3();
 		break;
 
 		case wait1:
 		if (!pause) {
 			state= play1;
+			melodyDone = 0;
 			} else {
 			state= wait1;
 		}
 		break;
 
 		case play1:
-			if (pause) {
-				noTone3();
-				saveState = state;
-				state = pause1;
-				break;
-			}
+		if (pause) {
+			noTone3();
+			saveState = state;
+			state = pause1;
+			break;
+		}
 		if (Melody[i][j] == -1) {
 			i++;
 			j = 0;
 		}
 		if (i == rows) {
+			melodyDone = 1;
 			pause = 1;
-			state = wait1;
+			state = init1;
 			i = 0;
-			j = 0;
 			break;
 		}
 		tone3(Melody[i][j]);
@@ -427,12 +398,12 @@ int tickSM_play1(int state) {
 		break;
 
 		case length1:
-			if (pause) {
-				noTone3();
-				saveState = state;
-				state = pause1;
-				break;
-			}
+		if (pause) {
+			noTone3();
+			saveState = state;
+			state = pause1;
+			break;
+		}
 		if (k < Melody_L[i][j]) {
 			k++;
 			state = length1;
@@ -444,12 +415,12 @@ int tickSM_play1(int state) {
 		break;
 
 		case rest1:
-			if (pause) {
-				noTone3();
-				saveState = state;
-				state = pause1;
-				break;
-			}
+		if (pause) {
+			noTone3();
+			saveState = state;
+			state = pause1;
+			break;
+		}
 		if (k < Melody_R[i][j]) {
 			k++;
 			state = rest1;
@@ -461,14 +432,14 @@ int tickSM_play1(int state) {
 		break;
 
 		case pause1:
-			if (pause) {
-				state = pause1;
+		if (pause) {
+			state = pause1;
 			} else {
-				if (saveState == length1) {
-					tone3(Melody[i][j]);
-				}
-				state = saveState;
+			if (saveState == length1) {
+				tone3(Melody[i][j]);
 			}
+			state = saveState;
+		}
 		break;
 	}
 	return state;
@@ -483,6 +454,7 @@ int tickSM_play2(int state) {
 		case init2:
 		state= wait2;
 		i = 0; j = 0; k = 0;
+		noTone1();
 		break;
 
 		case wait2:
@@ -505,9 +477,8 @@ int tickSM_play2(int state) {
 			j = 0;
 		}
 		if (i == rows) {
-			state = wait2;
+			state = init2;
 			i = 0;
-			j = 0;
 			break;
 		}
 		tone1(Harmony[i][j]);
@@ -549,14 +520,18 @@ int tickSM_play2(int state) {
 		break;
 
 		case pause2:
-			if (pause) {
-				state = pause2;
+		if (melodyDone) {
+			state = init2;
+			break;
+		}
+		if (pause) {
+			state = pause2;
 			} else {
-				if (saveState == length2) {
-					tone1(Harmony[i][j]);
-				}
-				state = saveState;
+			if (saveState == length2) {
+				tone1(Harmony[i][j]);
 			}
+			state = saveState;
+		}
 		break;
 	}
 	return state;
@@ -571,6 +546,7 @@ int tickSM_play3(int state) {
 		case init3:
 		state= wait3;
 		i = 0; j = 0; k = 0;
+		noTone0();
 		break;
 
 		case wait3:
@@ -593,7 +569,7 @@ int tickSM_play3(int state) {
 			j = 0;
 		}
 		if (i == rows) {
-			state = wait3;
+			state = init3;
 			i = 0;
 			j = 0;
 			break;
@@ -637,14 +613,18 @@ int tickSM_play3(int state) {
 		break;
 
 		case pause3:
-			if (pause) {
-				state = pause3;
+		if (melodyDone) {
+			state = init3;
+			break;
+		}
+		if (pause) {
+			state = pause3;
 			} else {
-				if (saveState == length3) {
-					tone0(Bass[i][j]);
-				}
-				state = saveState;
+			if (saveState == length3) {
+				tone0(Bass[i][j]);
 			}
+			state = saveState;
+		}
 		break;
 	}
 	return state;
@@ -660,7 +640,7 @@ int pause_tick(int state) {
 		break;
 
 		case toggle_press:
-			if (remote == PlayPause) {
+			if (remote == PlayPause || button) {
 				state = toggle_rel;
 				pause = !pause;
 			} else {
@@ -669,7 +649,7 @@ int pause_tick(int state) {
 		break;
 		
 		case toggle_rel:
-			if (remote == PlayPause) {
+			if (remote == PlayPause || button) {
 				state = toggle_rel;
 			} else {
 				state = toggle_press;
@@ -680,16 +660,18 @@ int pause_tick(int state) {
 	}
 	return state;
 };
-
+#if 1
 enum remote_states {receive};
 int remote_tick(int state) {
 	switch (state) {
 		case receive:
-			remote = USART_Receive();
+			remote = USART_Receive(0);
 			state = receive;
 		break;
 	}
+	return state;
 };
+#endif
 #endif
 
 int main(void) {
@@ -697,10 +679,10 @@ int main(void) {
 	DDRA = 0x00; PORTA = 0x00;
 	DDRB = 0xFF; PORTB = 0x00;
 	DDRC = 0xFF; PORTC = 0x00;
-	DDRD = 0x0F; PORTD = 0x00;
+	DDRD = 0xF0; PORTD = 0x00;
 
-#if 1 //task assignment
 	unsigned char timerPeriod = 1;
+#if 1 //task assignment
 	static task task1, task2, task3, task4, task5;
 	task *tasks[] = { &task1, &task2, &task3, &task4, &task5};
 	const unsigned short numTasks = sizeof(tasks) / sizeof(*tasks);
@@ -724,17 +706,17 @@ int main(void) {
 	task4.period = 50;
 	task4.elapsedTime = task4.period;
 	task4.TickFct = &remote_tick;
-	
+	#if 1
 	task5.state = 0;
-	task5.period = 50;
+	task5.period = 1;
 	task5.elapsedTime = task5.period;
 	task5.TickFct = &pause_tick;
-	
+	#endif
 #endif
 	TimerSet(timerPeriod);
 	TimerOn();
 	PWM3_on(); PWM1_on(); PWM0_on();
-	USART_Init(MYUBRR);
+	initUSART(0);
 
 	while(1) {
 #if 1 //task execution
@@ -745,7 +727,8 @@ int main(void) {
 			}
 			tasks[i]->elapsedTime += timerPeriod;
 		}
-#endif
+	#endif
+
 		while(!TimerFlag){};
 		TimerFlag = 0;
 	}
