@@ -59,6 +59,8 @@
 	#define A 220*2
 	#define Bb 233.1*2
 	#define B 246.9*2
+	#define Cb B
+	#define Fb E
 	#define Cs Db
 	#define Ds Eb
 	#define Fs Gb
@@ -110,7 +112,7 @@
 
 		short MegMm63[]   = {D, D, D*2, A, Gs, G, F, D, F, G,                         D, D, D*2, A, Gs, G, F, D, F, G,                            Bb/2, Bb/2, D*2, A, Gs, G, F, D, F, G,                    C, C, D*2, A, Gs, G, F, D, F, G,                           D, D, D*2, A, Gs, G, F, D, F, G,                         D, D, D*2, A, Gs, G, F, D, F, G,                            Bb/2, Bb/2, D*2, A, Gs, G, F, D, F, G,                    C, C, D*2, A, Gs, G, F, D, F, G, -1};
 		short MegMm63_L[] = {100, 100, 100, 100, 100, 100, 200, 100, 100, 100,       100, 100, 100, 100, 100, 100, 200, 100, 100, 100,            100, 100, 100, 100, 100, 100, 200, 100, 100, 100,         100, 100, 100, 100, 100, 100, 200, 100, 100, 100,          100, 100, 100, 100, 100, 100, 200, 100, 100, 100,       100, 100, 100, 100, 100, 100, 200, 100, 100, 100,            100, 100, 100, 100, 100, 100, 200, 100, 100, 100,         100, 100, 100, 100, 100, 100, 200, 100, 100, 100};
-		short MegMm63_R[] = {25, 25, 150, 150+125, 25+125, 25+125, 50, 25, 25, 25,   25, 25, 150, 150+125, 25+125, 25+125, 50, 25, 25, 25,        25, 25, 150, 150+125, 25+125, 25+125, 50, 25, 25, 25,     25, 25, 150, 150+125, 25+125, 25+125, 50, 25, 25, 25,      25, 25, 150, 150+125, 25+125, 25+125, 50, 25, 25, 25,   25, 25, 150, 150+125, 25+125, 25+125, 50, 25, 25, 25,        25, 25, 150, 150+125, 25+125, 25+125, 50, 25, 25, 25,     25, 25, 150, 150+125, 25+125, 25+125, 50, 25, 25, 25};
+		short MegMm63_R[] = {25, 25, 150, 150+125, 25+125, 25+125, 50, 25, 25, 25,   25, 25, 150, 150+125, 25+125, 25+125, 50, 25, 25, 25,        25, 25, 150, 150+125, 25+125, 25+125, 50, 25, 25, 25,     25, 25, 150, 150+125, 25+125, 25+125, 50, 25, 25, 25,      25, 25, 150, 150+125, 25+125, 25+125, 50, 25, 25, 25,   25, 25, 150, 150+125, 25+125, 25+125, 50, 25, 25, 25,        25, 25, 150, 150+125, 25+125, 25+125, 50, 25, 25, 25,     25, 25, 150, 150+125, 25+125, 25+125, 50, 25, 25, 25+1000};
 		#endif
 
 		#if 1 //Megalovania Harmony note arrays
@@ -232,7 +234,7 @@
 
 		short HKMm18[]   = {G,           G,                    B,        B, C*2,              C*2, D*2, Eb*2,             F*2, G*2,           G*2, Bb*2,                 C*4, -1};
 		short HKMm18_L[] = {3*1090-50,   3*1090*2-545-50,      500,      1040, 2*1090-50,     2*1090+363-50, 313, 314,    1040, 2*1090-50,    2*1090-50, 1090+545-50,    4*1090-50};
-		short HKMm18_R[] = {50+3*1090,   50,                   45,       50, 50,              50, 50, 50,                 50, 50,             50, 50,                    50};
+		short HKMm18_R[] = {50+3*1090,   50,                   45,       50, 50,              50, 50, 50,                 50, 50,             50, 50,                    50+1000};
 		#endif
 
 		#if 1 //Hollow Knight Harmony note arrays
@@ -279,19 +281,102 @@
 
 	#endif
 
-	short** Melody[]   = {MegMelody, HKMelody};
-	short** Melody_L[] = {MegMelody_L, HKMelody_L};
-	short** Melody_R[] = {MegMelody_R, HKMelody_R};
+	#if 1 //Korok Forest (Day)
+		
+		#if 1 //Melody note arrays
+		short KFMm1[]   = {A,        G*2, D*4,              C*4, G*2,              A*2, D*2,              F*2, C*2,           D*2, G*2, D*4,                     C*4, G*2,              A*2, D*2,             F*2, C*2, -1};
+		short KFMm1_L[] = {0,        100, 309+2*618-50,     100, 309+2*618-50,     100, 309+2*618-50,     100, 200,           309+618-50, 100, 309+2*618-50,     100, 309+2*618-50,     100, 309+2*618-50,    100, 200};
+		short KFMm1_R[] = {3*618,    209, 50+618,           209, 50+618,           209, 50+618,           209, 109+309,       50+618, 209, 50+618,               209, 50+618,           209, 50+618,          209, 109+618+309};
 
-	short** Harmony[]   = {MegHarmony, HKHarmony};
-	short** Harmony_L[] = {MegHarmony_L, HKHarmony_L};
-	short** Harmony_R[] = {MegHarmony_R, HKHarmony_R};
+		short KFMm9[]   = {D*2, G, D*2,                C*2, Bb, A, F, G, D*2, D*2,               F*2, C*2, D*2, G, D*2,                 C*2, Bb, A, G, A, D, G, -1};
+		short KFMm9_L[] = {309+618-50, 100, 618-50,    100, 100, 259, 259, 259, 100, 618-50,     259, 100, 309+618-50, 100, 618-50,     100, 100, 259, 259, 618-50, 100, 100};
+		short KFMm9_R[] = {50, 209, 50,                54, 55, 50, 50, 50, 209, 50+309,          50, 209, 50, 209, 50,                  54, 55, 50, 50, 50, 209-50, 209+309};
 
-	short** Bass[]   = {MegBass, HKBass};
-	short** Bass_L[] = {MegBass_L, HKBass_L};
-	short** Bass_R[] = {MegBass_R, HKBass_R};
+		short KFMm13[]   = {D*2, G*2, D*4,              C*4, G*2,              A*2, D*2,              F*2, C*2,           D*2, G*2, D*4,                     C*4, G*2,              A*2, D*2,             F*2, C*2, -1};
+		short KFMm13_L[] = {100, 100, 309+2*618-50,     100, 309+2*618-50,     100, 309+2*618-50,     100, 200,           309+618-50, 100, 309+2*618-50,     100, 309+2*618-50,     100, 309+2*618-50,    100, 200};
+		short KFMm13_R[] = {209+2*618, 209, 50+618,     209, 50+618,           209, 50+618,           209, 109+309,       50+618+50, 209, 50+618,            209, 50+618,           209, 50+618,          209, 109+309};
 
-	char rows[] = {12, 3};
+		short KFMm21[]   = {D*2, G, D, G, D*2,               D*2, C*2, Bb,          C*2, F, Eb, D,                 Eb, Bb, A, G,                 A, D, G, D*2,                            G*2, F*2, -1};
+		short KFMm21_L[] = {100, 2*618-50, 259, 259, 259,    2*618-50, 259, 259,    100, 309+618-50, 259, 259,     100, 309+618-50, 259, 259,    100, 309+618-50, 100, 309+2*618-50,      100, 309+618-50};
+		short KFMm21_R[] = {209+309, 50, 50, 50, 50,         50+618, 50, 50,        209, 50+618, 50, 50,           209, 50+618, 50, 50,          209, 50+618, 209, 50+618,                209, 50+309};
+
+		short KFMm28[]   = {C*2, F, Bb, C*2, Db*2, Eb*2,          F*2, Eb*2, Db*2, C*2, Bb, Ab, Bb, G, Eb,        F, F*2, D*2, G*2,                      D, Eb, D, Eb, F, G, F, G, A*2, D*2,                      F, G, A, Bb, C, -1};
+		short KFMm28_L[] = {618-50, 100, 100, 100, 100, 100,      259, 100, 100, 100, 100, 259, 100, 100, 100,    618-50, 618-50, 618-50, 309+618-50,    100, 100, 100, 100, 100, 100, 100, 100, 100, 618-50,     100, 100, 100, 100, 309+2*618};
+		short KFMm28_R[] = {50, 209, 54, 55, 54, 55,              50, 54, 55, 209, 209, 50, 209, 209, 209,        50, 50, 50+309, 50,                    54, 55, 54, 55, 54, 55, 54, 55, 209, 50,                 54, 55, 54, 55, 50+1000};
+		#endif
+
+		#if 1 //Harmony note arrays
+		short KFHm1[]   = {A, F, E,                F, E,              F, E,               F, E,              F, E,               F, E,             F, E,             F, E, -1};
+		short KFHm1_L[] = {0, 100, 2*618-50,       100, 2*618-50,     100, 2*618-50,      100, 2*618-50,     100, 2*618-50,      100, 2*618-50,    100, 2*618-50,    100, 2*618-50};
+		short KFHm1_R[] = {309, 209+618, 50+309,   209+618, 50+309,   209+618, 50+309,    209+618, 50+309,   209+618, 50+309,    209+618, 50+309,  209+618, 50+309,  209+618, 50+309};
+
+		short KFHm9[]   = {G, Ab/2,              D,            C, D,                  D, D, D,                  D, D, -1};
+		short KFHm9_L[] = {100, 309+618-50,      4*618-50,     618-50, 309+618-50,    2*618-50, 618-50, 100,    100, 309+618-50};
+		short KFHm9_R[] = {209+309, 50+618,      50,           50+309, 50+618,        50, 50+309, 209+309,      209+309, 50+618+359};
+
+		short KFHm14[]   = {F, E,              F, E,               F, E,              F, E,               F, E,             F, E,            Eb, D, D, -1};
+		short KFHm14_L[] = {100, 2*618-50,     100, 2*618-50,      100, 2*618-50,     100, 2*618-50,      100, 2*618-50,    100, 2*618-50,   100, 309+618-50, 100};
+		short KFHm14_R[] = {209+618, 50+309,   209+618, 50+309,    209+618, 50+309,   209+618, 50+329,    209+618, 50+309,  209+618, 50+309, 209+618, 50, 209+309};
+		
+		short KFHm21[]   = {C, D,                        D, D,                       C, C,                      D, D,                      A/2, A/2,             D, D,                      C, Cb, -1};
+		short KFHm21_L[] = {100, 2*618-50,               259, 259,                   259, 259,                  259, 259,                  259, 618-50,          259, 259,                  259, 309+618-50};
+		short KFHm21_R[] = {209+309, 50+309+618+309,     50+618, 50+309+618+309,     50+618, 50+309+618+309,    50+618, 50+309+618+309,    50+618, 50+618+309,   50+618, 50+309+618+309,    50+309, 50+618};
+
+		short KFHm28[]   = {F, Eb, Bb/2, A/2,            D, C,                    Bb/2, C, Bb/2, C, D, Eb, D, Eb, A, D,                  D, Eb, F, G, E, -1};
+		short KFHm28_L[] = {618-50, 100, 618-50, 100,    2*618-50, 2*618-50,      100, 100, 100, 100, 100, 100, 100, 100, 100, 618-50,   100, 100, 100, 100, 309+2*618-50};
+		short KFHm28_R[] = {50, 209+309, 50, 209+309,    50, 50+618,              54, 55, 54, 55, 54, 55, 54, 55, 209, 50,               54, 55, 54, 55, 50};
+		#endif
+
+		#if 1 //Bass note arrays
+		short KFBm1[]   = {A, G/4, Bb/2, G/4, A/2,        G/4, Bb/2, G/4, A/2,         G/4, Bb/2, G/4, A/2,        G/4, Bb/2, G/4, A/2,       G/4, Bb/2, G/4, A/2,         G/4, Bb/2, G/4, A/2,        G/4, Bb/2, G/4, A/2,       G/4, Bb/2, G/4, A/2, -1};
+		short KFBm1_L[] = {0, 100, 100, 100, 2*618-50,    100, 100, 100, 2*618-50,     100, 100, 100, 2*618-50,    100, 100, 100, 2*618-50,   100, 100, 100, 2*618-50,     100, 100, 100, 2*618-50,    100, 100, 100, 2*618-50,   100, 100, 100, 2*618-50};
+		short KFBm1_R[] = {0, 209, 209+309, 209, 50,      209, 209+309, 209, 50,       209, 209+309, 209, 50,      209, 209+309, 209, 40,     209, 209+309, 209, 50,       209, 209+309, 209, 50,      209, 209+309, 209, 50,     209, 209+309, 209, 40};
+
+		short KFBm9[]   = {F/4, Ab, Bb/4,            Eb/2,          D/2, G/2,              C/2, D/2, Eb/2,            F/2, G/2, -1};
+		short KFBm9_L[] = {100, 100, 309+618-50,     4*618-50,      618-50, 309+618-50,    2*618-50, 618-50, 100,     100, 309+618-50};
+		short KFBm9_R[] = {209, 209+309, 50+618,     50,            50+309, 50+618,        50, 50+309, 209+309,       209+309, 50+618};
+		
+		short KFBm14[]   = {G/4, Bb/2, G/4, A/2,        G/4, Bb/2, G/4, A/2,         G/4, Bb/2, G/4, A/2,        G/4, Bb/2, G/4, A/2,       G/4, Bb/2, G/4, A/2,         G/4, Bb/2, G/4, A/2,             F/4, Ab/2, Bb/4, Ab/2, Eb/2, -1};
+		short KFBm14_L[] = {100, 100, 100, 2*618-50,    100, 100, 100, 2*618-50,     100, 100, 100, 2*618-50,    100, 100, 100, 2*618-50,   100, 100, 100, 2*618-50,     100, 100, 100, 2*618-50,         100, 100, 100, 309+618-50, 100};
+		short KFBm14_R[] = {209, 209+309, 209, 50,      209, 209+309, 209, 50,       209, 209+309, 209, 50,      209, 209+309, 209, 50,     209, 209+309, 209, 50,       209, 209+309, 209, 50,           209, 209+309, 209, 50, 209+309};
+		
+		short KFBm21[]   = {D/2, G/2,              Eb/2, G/2, Eb/2, G/2,           D/2, F/2, D/2, F/2,              C/2, Eb/2, C/2, Eb/2,           Bb/4, D/2, Bb/4, D/2,       Eb/2, G/2, Eb/2, G/2,          D/2, F/2, Db/2, -1};
+		short KFBm21_L[] = {100, 2*618-50,         259, 259, 259, 259,             259, 259, 259, 259,              259, 259, 259, 259,             259, 259, 259, 618-50,      259, 259, 259, 259,            259, 259, 309+618-50};
+		short KFBm21_R[] = {209+309, 50+309+618,   50, 50+309, 50, 50+309+618,     50, 50+309, 50, 50+309+618,      50, 50+309, 50, 50+309+618,     50, 50+309, 50, 50+618,     50, 50+309, 50, 50+309+618,    50, 50+309, 50+618};
+
+		short KFBm28[]   = {Gb/2, Ab/2, Cb/2, Db/2,       Eb/2, D/2,             G/4, Bb/2, G/4, A/2,        G/4, Bb/2, D/2, -1};
+		short KFBm28_L[] = {618-50, 100, 618-50, 100,     2*618-50, 2*618-50,    259, 259, 259, 2*618-50,    259, 259, 309+2*618-50};
+		short KFBm28_R[] = {50, 209+309, 50, 209+309,     50, 50,                50, 50+309, 50, 50,         50, 50+309, 50};
+		#endif
+
+
+		short* KFMelody[]   = {KFMm1, KFMm9, KFMm13, KFMm21, KFMm28};
+		short* KFMelody_L[] = {KFMm1_L, KFMm9_L, KFMm13_L, KFMm21_L, KFMm28_L};
+		short* KFMelody_R[] = {KFMm1_R, KFMm9_R, KFMm13_R, KFMm21_R, KFMm28_R};
+
+		short* KFHarmony[]   = {KFHm1, KFHm9, KFHm14, KFHm21, KFHm28};
+		short* KFHarmony_L[] = {KFHm1_L, KFHm9_L, KFHm14_L, KFHm21_L, KFHm28_L};
+		short* KFHarmony_R[] = {KFHm1_R, KFHm9_R, KFHm14_R, KFHm21_R, KFHm28_R};
+
+		short* KFBass[]   = {KFBm1, KFBm9, KFBm14, KFBm21, KFBm28};
+		short* KFBass_L[] = {KFBm1_L, KFBm9_L, KFBm14_L, KFBm21_L, KFBm28_L};
+		short* KFBass_R[] = {KFBm1_R, KFBm9_R, KFBm14_R, KFBm21_R, KFBm28_R};
+
+	#endif
+
+	short** Melody[]   = {MegMelody, HKMelody, KFMelody};
+	short** Melody_L[] = {MegMelody_L, HKMelody_L, KFMelody_L};
+	short** Melody_R[] = {MegMelody_R, HKMelody_R, KFMelody_R};
+
+	short** Harmony[]   = {MegHarmony, HKHarmony, KFHarmony};
+	short** Harmony_L[] = {MegHarmony_L, HKHarmony_L, KFHarmony_L};
+	short** Harmony_R[] = {MegHarmony_R, HKHarmony_R, KFHarmony_R};
+
+	short** Bass[]   = {MegBass, HKBass, KFBass};
+	short** Bass_L[] = {MegBass_L, HKBass_L, KFBass_L};
+	short** Bass_R[] = {MegBass_R, HKBass_R, KFBass_R};
+
+	char rows[] = {12, 3, 5};
 #endif
 
 #if 1 //global variables
@@ -512,7 +597,6 @@ int tickSM_play1(int state) {
 		}
 		if (i == rows[l]) {
 			melodyDone = 1;
-			pause = 1;
 			state = wait1;
 			i = 0; j = 0; k = 0;
 			l++;
@@ -613,10 +697,12 @@ int tickSM_play1(int state) {
 			} else {
 				l--;
 			}
+			pause = 0;
 			state = play1;
 			break;
 		} else if (prev){
 			i = 0; j = 0; k = 0;
+			pause = 0;
 			state = play1;
 			break;
 		}
@@ -626,6 +712,7 @@ int tickSM_play1(int state) {
 			if (l == songs) {
 				l = 0;
 			}
+			pause = 0;
 			state = play1;
 			break;
 		}
@@ -805,10 +892,12 @@ int tickSM_play2(int state) {
 			} else {
 				l--;
 			}
+			pause = 0;
 			state = play2;
 			break;
 		} else if (prev){
 			i = 0; j = 0; k = 0;
+			pause = 0;
 			state = play2;
 			break;
 		}
@@ -818,6 +907,7 @@ int tickSM_play2(int state) {
 			if (l == songs) {
 				l = 0;
 			}
+			pause = 0;
 			state = play2;
 			break;
 		}
@@ -1007,11 +1097,13 @@ int tickSM_play3(int state) {
 				l--;
 			}
 			prev = 0;
+			pause = 0;
 			state = play3;
 			break;
 		} else if (prev){
 			i = 0; j = 0; k = 0;
 			prev = 0;
+			pause = 0;
 			state = play3;
 			break;
 		}
@@ -1022,6 +1114,7 @@ int tickSM_play3(int state) {
 				l = 0;
 			}
 			next = 0;
+			pause = 0;
 			state = play3;
 			break;
 		}
@@ -1130,7 +1223,7 @@ int main(void) {
 
 	unsigned char timerPeriod = 1;
 
-#if 1 //task assignment
+	#if 1 //task assignment
 	static task task1, task2, task3, task4, task5, task6;
 	task *tasks[] = { &task1, &task2, &task3, &task4, &task5, &task6};
 	const unsigned short numTasks = sizeof(tasks) / sizeof(*tasks);
@@ -1164,23 +1257,23 @@ int main(void) {
 	task6.period = 1;
 	task6.elapsedTime = task6.period;
 	task6.TickFct = &change_tick;
-	
-#endif
+	#endif
+
 	TimerSet(timerPeriod);
 	TimerOn();
 	PWM3_on(); PWM1_on(); PWM0_on();
 	USART_Init(MYUBRR);
 
 	while(1) {
-#if 1 //task execution
+	#if 1 //task execution
 		for (unsigned char i = 0; i < numTasks; i++) {
 			if ( tasks[i]->elapsedTime == tasks[i]->period) {
 				tasks[i]->state = tasks[i]->TickFct(tasks[i]->state);
 				tasks[i]->elapsedTime = 0;
 			}
 			tasks[i]->elapsedTime += timerPeriod;
-		}
 	#endif
+	}
 
 		while(!TimerFlag){};
 		TimerFlag = 0;
