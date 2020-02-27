@@ -535,8 +535,9 @@ unsigned char USART_Receive( void )
 	;
 	/* Get and return received data from buffer */
 	return UDR0;
-}
+}
 #endif
+
 #if 1 //tick function definitions
 enum States1 {init1, wait1, play1, length1, rest1, pause1};
 int tickSM_play1(int state) {
