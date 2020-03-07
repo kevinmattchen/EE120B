@@ -13,6 +13,7 @@
 #include "simAVRHeader.h"
 #endif
 #include <avr/interrupt.h>
+#include <avr/eeprom.h>
 #include "io.c"
 
 #define FOSC 8000000
@@ -382,9 +383,32 @@
 #if 1 //global variables
 	unsigned char prev, next;
 	unsigned char pause = 1;
+	unsigned char Reset = 0;
+	unsigned char powerOff = 0;
 	unsigned char remote;
 	unsigned char melodyDone = 1;
 	unsigned long songs = sizeof(Melody) / sizeof(Melody[0]);
+	unsigned char globalL;
+	char* songNames[] = {"Megalovania", "Hollow Knight", "Korok Forest"};
+	
+	unsigned int  state1_i EEMEM = 0;
+	unsigned int  state1_j EEMEM = 0;
+	unsigned int  state1_k EEMEM = 0;
+	unsigned char state1_l EEMEM = 0;
+	
+	unsigned int  state2_i EEMEM = 0;
+	unsigned int  state2_j EEMEM = 0;
+	unsigned int  state2_k EEMEM = 0;
+	unsigned char state2_l EEMEM = 0;
+	
+	unsigned int  state3_i EEMEM = 0;
+	unsigned int  state3_j EEMEM = 0;
+	unsigned int  state3_k EEMEM = 0;
+	unsigned char state3_l EEMEM = 0;
+	
+	unsigned char state1_save EEMEM = 1;
+	unsigned char state2_save EEMEM = 1;
+	unsigned char state3_save EEMEM = 1;
 #endif
 
 typedef struct _task {
@@ -541,27 +565,67 @@ unsigned char USART_Receive( void )
 #if 1 //tick function definitions
 enum States1 {init1, wait1, play1, length1, rest1, pause1};
 int tickSM_play1(int state) {
-	static unsigned short i, j, k;
-	static unsigned char l = 0;
+	static unsigned int i, j, k;
+	static unsigned char l;
 	static unsigned char saveState;
 	switch(state) {
 		case init1:
-		state= wait1;
-		i = 0; j = 0; k = 0; l = 1;
+		state = eeprom_read_byte(&state1_save);
+		i = eeprom_read_word(&state1_i);
+		j = eeprom_read_word(&state1_j);
+		k = eeprom_read_word(&state1_k);
+		l = eeprom_read_byte(&state1_l);
 		prev = 0;
 		next = 0;
+		pause = 1;
+		Reset = 0;
+		powerOff = 0;
+		melodyDone = 1;
 		noTone3();
 		break;
 
 		case wait1:
+		if (powerOff) {
+			noTone3();
+
+			//eeprom_update_word(&state1_i, i);
+			//eeprom_update_word(&state1_j, j);
+			//eeprom_update_word(&state1_k, k);
+			//eeprom_update_byte(&state1_l, l);
+			//eeprom_update_byte(&state1_save, state);
+
+			state = 0;
+			break;
+		}
+		if (Reset) {
+			state = 0;
+			break;
+		}
 		if (!pause) {
 			state= play1;
-			} else {
+		} else {
 			state= wait1;
 		}
 		break;
 
 		case play1:
+		globalL = l;
+		if (powerOff) {
+			noTone3();
+
+			//eeprom_update_word(&state1_i, i);
+			//eeprom_update_word(&state1_j, j);
+			//eeprom_update_word(&state1_k, k);
+			//eeprom_update_byte(&state1_l, l);
+			//eeprom_update_byte(&state1_save, state);
+
+			state = 0;
+			break;
+		}
+		if (Reset) {
+			state = 0;
+			break;
+		}
 			melodyDone = 0;
 		if (pause) {
 			noTone3();
@@ -611,6 +675,27 @@ int tickSM_play1(int state) {
 		break;
 
 		case length1:
+		if (powerOff) {
+			noTone3();
+
+			//eeprom_update_word(&state1_i, i);
+			//eeprom_update_word(&state1_j, j);
+			//eeprom_update_word(&state1_k, k);
+			//eeprom_update_byte(&state1_l, l);
+			//eeprom_update_byte(&state1_save, state);
+
+			state = 0;
+			break;
+		}
+		if (Reset) {
+			state = 0;
+			break;
+		}
+		if (Reset) {
+			Reset = 0;
+			state = 0;
+			break;
+		}
 		if (pause) {
 			noTone3();
 			saveState = state;
@@ -651,6 +736,22 @@ int tickSM_play1(int state) {
 		break;
 
 		case rest1:
+		if (powerOff) {
+			noTone3();
+
+			//eeprom_update_word(&state1_i, i);
+			//eeprom_update_word(&state1_j, j);
+			//eeprom_update_word(&state1_k, k);
+			//eeprom_update_byte(&state1_l, l);
+			//eeprom_update_byte(&state1_save, state);
+
+			state = 0;
+			break;
+		}
+		if (Reset) {
+			state = 0;
+			break;
+		}
 		if (pause) {
 			noTone3();
 			saveState = state;
@@ -691,6 +792,22 @@ int tickSM_play1(int state) {
 		break;
 
 		case pause1:
+		if (powerOff) {
+			noTone3();
+
+			//eeprom_update_word(&state1_i, i);
+			//eeprom_update_word(&state1_j, j);
+			//eeprom_update_word(&state1_k, k);
+			//eeprom_update_byte(&state1_l, l);
+			//eeprom_update_byte(&state1_save, state);
+
+			state = 0;
+			break;
+		}
+		if (Reset) {
+			state = 0;
+			break;
+		}
 		if (prev && (i == 0)) {
 			i = 0; j = 0; k = 0;
 			if (l == 0) {
@@ -726,22 +843,44 @@ int tickSM_play1(int state) {
 			state = saveState;
 		}
 		break;
+			
 	}
 	return state;
 }
 
 enum States2 {init2, wait2, play2, length2, rest2, pause2};
 int tickSM_play2(int state) {
-	static unsigned short i, j, k, l;
+	static unsigned int i, j, k;
+	static unsigned char l;
 	static unsigned char saveState;
 	switch(state) {
 		case init2:
-		state= wait2;
-		i = 0; j = 0; k = 0; l = 1;
+		state = eeprom_read_byte(&state2_save);
+		i = eeprom_read_word(&state2_i);
+		j = eeprom_read_word(&state2_j);
+		k = eeprom_read_word(&state2_k);
+		l = eeprom_read_byte(&state2_l);
+		Reset = 0;
 		noTone1();
 		break;
 
 		case wait2:
+		if (powerOff) {
+			noTone1();
+
+			//eeprom_update_word(&state2_i, i);
+			//eeprom_update_word(&state2_j, j);
+			//eeprom_update_word(&state2_k, k);
+			//eeprom_update_byte(&state2_l, l);
+			//eeprom_update_byte(&state2_save, state);
+
+			state = 0;
+			break;
+		}
+		if (Reset) {
+			state = 0;
+			break;
+		}
 		if (melodyDone && !pause) {
 			state= play2;
 			} else {
@@ -750,6 +889,22 @@ int tickSM_play2(int state) {
 		break;
 
 		case play2:
+		if (powerOff) {
+			noTone1();
+
+			//eeprom_update_word(&state2_i, i);
+			//eeprom_update_word(&state2_j, j);
+			//eeprom_update_word(&state2_k, k);
+			//eeprom_update_byte(&state2_l, l);
+			//eeprom_update_byte(&state2_save, state);
+
+			state = 0;
+			break;
+		}
+		if (Reset) {
+			state = 0;
+			break;
+		}
 		if (pause) {
 			noTone1();
 			saveState = state;
@@ -797,6 +952,22 @@ int tickSM_play2(int state) {
 		break;
 
 		case length2:
+		if (powerOff) {
+			noTone1();
+
+			//eeprom_update_word(&state2_i, i);
+			//eeprom_update_word(&state2_j, j);
+			//eeprom_update_word(&state2_k, k);
+			//eeprom_update_byte(&state2_l, l);
+			//eeprom_update_byte(&state2_save, state);
+
+			state = 0;
+			break;
+		}
+		if (Reset) {
+			state = 0;
+			break;
+		}
 		if (pause) {
 			noTone1();
 			saveState = state;
@@ -837,6 +1008,22 @@ int tickSM_play2(int state) {
 		break;
 
 		case rest2:
+		if (powerOff) {
+			noTone1();
+
+			//eeprom_update_word(&state2_i, i);
+			//eeprom_update_word(&state2_j, j);
+			//eeprom_update_word(&state2_k, k);
+			//eeprom_update_byte(&state2_l, l);
+			//eeprom_update_byte(&state2_save, state);
+
+			state = 0;
+			break;
+		}
+		if (Reset) {
+			state = 0;
+			break;
+		}
 		if (pause) {
 			noTone1();
 			saveState = state;
@@ -877,6 +1064,22 @@ int tickSM_play2(int state) {
 		break;
 
 		case pause2:
+		if (powerOff) {
+			noTone1();
+
+			//eeprom_update_word(&state2_i, i);
+			//eeprom_update_word(&state2_j, j);
+			//eeprom_update_word(&state2_k, k);
+			//eeprom_update_byte(&state2_l, l);
+			//eeprom_update_byte(&state2_save, state);
+
+			state = 0;
+			break;
+		}
+		if (Reset) {
+			state = 0;
+			break;
+		}
 		if (melodyDone) {
 			state = wait2;
 			i = 0; j = 0; k = 0;
@@ -927,16 +1130,37 @@ int tickSM_play2(int state) {
 
 enum States3 {init3, wait3, play3, length3, rest3, pause3};
 int tickSM_play3(int state) {
-	static unsigned short i, j, k, l;
+	static unsigned int i, j, k;
+	static unsigned char l;
 	static unsigned char saveState;
 	switch(state) {
 		case init3:
-		state= wait3;
-		i = 0; j = 0; k = 0; l = 1;
+		state = eeprom_read_byte(&state3_save);
+		i = eeprom_read_word(&state3_i);
+		j = eeprom_read_word(&state3_j);
+		k = eeprom_read_word(&state3_k);
+		l = eeprom_read_byte(&state3_l);
+		Reset = 0;
 		noTone0();
 		break;
 
 		case wait3:
+		if (powerOff) {
+			noTone0();
+
+			//eeprom_update_word(&state3_i, i);
+			//eeprom_update_word(&state3_j, j);
+			//eeprom_update_word(&state3_k, k);
+			//eeprom_update_byte(&state3_l, l);
+			//eeprom_update_byte(&state3_save, state);
+
+			state = 0;
+			break;
+		}
+		if (Reset) {
+			state = 0;
+			break;
+		}
 		if (melodyDone && !pause) {
 			state= play3;
 			} else {
@@ -945,6 +1169,18 @@ int tickSM_play3(int state) {
 		break;
 
 		case play3:
+		if (powerOff) {
+			noTone0();
+
+			//eeprom_update_word(&state3_i, i);
+			//eeprom_update_word(&state3_j, j);
+			//eeprom_update_word(&state3_k, k);
+			//eeprom_update_byte(&state3_l, l);
+			//eeprom_update_byte(&state3_save, state);
+
+			state = 0;
+			break;
+		}
 		if (pause) {
 			noTone0();
 			saveState = state;
@@ -995,6 +1231,22 @@ int tickSM_play3(int state) {
 		break;
 
 		case length3:
+		if (powerOff) {
+			noTone0();
+
+			//eeprom_update_word(&state3_i, i);
+			//eeprom_update_word(&state3_j, j);
+			//eeprom_update_word(&state3_k, k);
+			//eeprom_update_byte(&state3_l, l);
+			//eeprom_update_byte(&state3_save, state);
+
+			state = 0;
+			break;
+		}
+		if (Reset) {
+			state = 0;
+			break;
+		}
 		if (pause) {
 			noTone0();
 			saveState = state;
@@ -1038,6 +1290,22 @@ int tickSM_play3(int state) {
 		break;
 
 		case rest3:
+		if (powerOff) {
+			noTone0();
+
+			//eeprom_update_word(&state3_i, i);
+			//eeprom_update_word(&state3_j, j);
+			//eeprom_update_word(&state3_k, k);
+			//eeprom_update_byte(&state3_l, l);
+			//eeprom_update_byte(&state3_save, state);
+
+			state = 0;
+			break;
+		}
+		if (Reset) {
+			state = 0;
+			break;
+		}
 		if (pause) {
 			noTone0();
 			saveState = state;
@@ -1081,6 +1349,22 @@ int tickSM_play3(int state) {
 		break;
 
 		case pause3:
+		if (powerOff) {
+			noTone0();
+
+			//eeprom_update_word(&state3_i, i);
+			//eeprom_update_word(&state3_j, j);
+			//eeprom_update_word(&state3_k, k);
+			//eeprom_update_byte(&state3_l, l);
+			//eeprom_update_byte(&state3_save, state);
+
+			state = 0;
+			break;
+		}
+		if (Reset) {
+			state = 0;
+			break;
+		}
 		if (melodyDone) {
 			state = wait3;
 			i = 0; j = 0; k = 0;
@@ -1168,6 +1452,9 @@ int remote_tick(int state) {
 	switch (state) {
 		case receive:
 			remote = USART_Receive();
+			if (remote == Power) {
+				powerOff = 1;
+			}
 			state = receive;
 		break;
 	}
@@ -1213,6 +1500,88 @@ int change_tick(int state) {
 	return state;
 };
 
+enum reset_states {reset};
+int reset_tick(int state) {
+	switch (state) {
+		case reset:
+			if (remote == Eq) {
+				eeprom_write_word(&state1_i, (int)0);
+				eeprom_write_word(&state1_j, 0);
+				eeprom_write_word(&state1_k, 0);
+				eeprom_write_byte(&state1_l, 0);
+				
+				eeprom_write_word(&state2_i, 0);
+				eeprom_write_word(&state2_j, 0);
+				eeprom_write_word(&state2_k, 0);
+				eeprom_write_byte(&state2_l, 0);
+				
+				eeprom_write_word(&state3_i, 0);
+				eeprom_write_word(&state3_j, 0);
+				eeprom_write_word(&state3_k, 0);
+				eeprom_write_byte(&state3_l, 0);
+				
+				eeprom_write_byte(&state1_save, 1);
+				eeprom_write_byte(&state2_save, 1);
+				eeprom_write_byte(&state3_save, 1);
+
+				pause = 1;
+				Reset = 1;
+
+			}
+			state = reset;
+		break;
+	}
+	return state;
+};
+
+enum lcd_states {init, pauseClear, paused, playClear, play};
+int lcd_tick(int state) {
+	static unsigned char prevL = 0;
+	switch (state) {
+		case init:
+			LCD_ClearScreen();
+			state = pauseClear;
+		break;
+
+		case pauseClear:
+			LCD_DisplayString(5, "Paused");
+			state = paused;
+		break;
+			
+
+		case paused:
+			if (pause) {
+				state = paused;
+			} else {
+				LCD_ClearScreen();
+				state = playClear;
+			}
+		break;
+
+		case playClear:
+			LCD_DisplayString(2, "Now Playing...");
+			LCD_DisplayString(17+8-ceil((strlen(songNames[globalL]))/2.0), songNames[globalL] );
+			state = play;
+		break;
+
+		case play:
+			if (pause) {
+				LCD_ClearScreen();
+				state = pauseClear;
+			} else {
+				if (globalL != prevL) {
+					LCD_ClearScreen();
+					prevL = globalL;
+					state = playClear;
+					break;
+				}
+				state = play;
+			}
+		break;
+	}
+	return state;
+};
+
 #endif
 
 int main(void) {
@@ -1225,45 +1594,57 @@ int main(void) {
 	unsigned char timerPeriod = 1;
 
 	#if 1 //task assignment
-	static task task1, task2, task3, task4, task5, task6;
-	task *tasks[] = { &task1, &task2, &task3, &task4, &task5, &task6};
+	static task task1, task2, task3, task4, task5, task6, task7, task8;
+	task *tasks[] = { &task1, &task2, &task3, &task4, &task5, &task6, &task7, &task8};
 	const unsigned short numTasks = sizeof(tasks) / sizeof(*tasks);
 	
 	task1.state = 0;
-	task1.period = 1;
+	task1.period = 50;
 	task1.elapsedTime = task1.period;
-	task1.TickFct = &tickSM_play1;
+	task1.TickFct = &remote_tick;
 	
 	task2.state = 0;
 	task2.period = 1;
 	task2.elapsedTime = task2.period;
-	task2.TickFct = &tickSM_play2;
+	task2.TickFct = &pause_tick;
 	
 	task3.state = 0;
 	task3.period = 1;
 	task3.elapsedTime = task3.period;
-	task3.TickFct = &tickSM_play3;
+	task3.TickFct = &change_tick;
 	
 	task4.state = 0;
-	task4.period = 50;
+	task4.period = 1;
 	task4.elapsedTime = task4.period;
-	task4.TickFct = &remote_tick;
+	task4.TickFct = &reset_tick;
 	
 	task5.state = 0;
 	task5.period = 1;
 	task5.elapsedTime = task5.period;
-	task5.TickFct = &pause_tick;
+	task5.TickFct = &tickSM_play1;
 	
 	task6.state = 0;
 	task6.period = 1;
 	task6.elapsedTime = task6.period;
-	task6.TickFct = &change_tick;
+	task6.TickFct = &tickSM_play2;
+	
+	task7.state = 0;
+	task7.period = 1;
+	task7.elapsedTime = task7.period;
+	task7.TickFct = &tickSM_play3;
+
+	task8.state = 0;
+	task8.period = 50;
+	task8.elapsedTime = task8.period;
+	task8.TickFct = &lcd_tick;
+
 	#endif
 
 	TimerSet(timerPeriod);
 	TimerOn();
 	PWM3_on(); PWM1_on(); PWM0_on();
 	USART_Init(MYUBRR);
+	LCD_init();
 
 	while(1) {
 	#if 1 //task execution
