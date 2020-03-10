@@ -1,7 +1,7 @@
 /*	Author: kchen161
  *      Partner(s) Name: Kevin Chen
  *	Lab Section: 23
- *	Assignment: Final Project
+ *	Assignment: Final Project, music player microcontroller
  *	Exercise Description: [optional - include for your own benefit]
  *
  *	I acknowledge all content contained herein, excluding template or example
@@ -14,6 +14,8 @@
 #endif
 #include <avr/interrupt.h>
 #include <avr/eeprom.h>
+#include <math.h>
+#include <string.h>
 #include "io.c"
 
 #define FOSC 8000000
@@ -384,9 +386,8 @@
 	unsigned char prev, next;
 	unsigned char pause = 1;
 	unsigned char Reset = 0;
-	unsigned char powerOff = 0;
 	unsigned char remote;
-	unsigned char melodyDone = 1;
+	unsigned char melodyDone = 0;
 	unsigned long songs = sizeof(Melody) / sizeof(Melody[0]);
 	unsigned char globalL;
 	char* songNames[] = {"Megalovania", "Hollow Knight", "Korok Forest"};
@@ -399,12 +400,10 @@
 	unsigned int  state2_i EEMEM = 0;
 	unsigned int  state2_j EEMEM = 0;
 	unsigned int  state2_k EEMEM = 0;
-	unsigned char state2_l EEMEM = 0;
 	
 	unsigned int  state3_i EEMEM = 0;
 	unsigned int  state3_j EEMEM = 0;
 	unsigned int  state3_k EEMEM = 0;
-	unsigned char state3_l EEMEM = 0;
 	
 	unsigned char state1_save EEMEM = 1;
 	unsigned char state2_save EEMEM = 1;
@@ -567,36 +566,22 @@ enum States1 {init1, wait1, play1, length1, rest1, pause1};
 int tickSM_play1(int state) {
 	static unsigned int i, j, k;
 	static unsigned char l;
-	static unsigned char saveState;
 	switch(state) {
 		case init1:
-		state = eeprom_read_byte(&state1_save);
+		state = pause1;
 		i = eeprom_read_word(&state1_i);
 		j = eeprom_read_word(&state1_j);
 		k = eeprom_read_word(&state1_k);
 		l = eeprom_read_byte(&state1_l);
+		globalL = l;
 		prev = 0;
 		next = 0;
 		pause = 1;
 		Reset = 0;
-		powerOff = 0;
-		melodyDone = 1;
 		noTone3();
 		break;
 
 		case wait1:
-		if (powerOff) {
-			noTone3();
-
-			//eeprom_update_word(&state1_i, i);
-			//eeprom_update_word(&state1_j, j);
-			//eeprom_update_word(&state1_k, k);
-			//eeprom_update_byte(&state1_l, l);
-			//eeprom_update_byte(&state1_save, state);
-
-			state = 0;
-			break;
-		}
 		if (Reset) {
 			state = 0;
 			break;
@@ -610,18 +595,6 @@ int tickSM_play1(int state) {
 
 		case play1:
 		globalL = l;
-		if (powerOff) {
-			noTone3();
-
-			//eeprom_update_word(&state1_i, i);
-			//eeprom_update_word(&state1_j, j);
-			//eeprom_update_word(&state1_k, k);
-			//eeprom_update_byte(&state1_l, l);
-			//eeprom_update_byte(&state1_save, state);
-
-			state = 0;
-			break;
-		}
 		if (Reset) {
 			state = 0;
 			break;
@@ -629,7 +602,11 @@ int tickSM_play1(int state) {
 			melodyDone = 0;
 		if (pause) {
 			noTone3();
-			saveState = state;
+			eeprom_update_word(&state1_i, i);
+			eeprom_update_word(&state1_j, j);
+			eeprom_update_word(&state1_k, k);
+			eeprom_update_byte(&state1_l, l);
+			eeprom_update_byte(&state1_save, state);
 			state = pause1;
 			break;
 		}
@@ -640,6 +617,7 @@ int tickSM_play1(int state) {
 			} else {
 				l--;
 			}
+			globalL = l;
 			state = play1;
 			break;
 		} else if (prev){
@@ -653,6 +631,7 @@ int tickSM_play1(int state) {
 			if (l == songs) {
 				l = 0;
 			}
+			globalL = l;
 			state = play1;
 			break;
 		}
@@ -668,6 +647,7 @@ int tickSM_play1(int state) {
 			if (l == songs) {
 				l = 0;
 			}
+			globalL = l;
 			break;
 		}
 		tone3(Melody[l][i][j]);
@@ -675,30 +655,17 @@ int tickSM_play1(int state) {
 		break;
 
 		case length1:
-		if (powerOff) {
-			noTone3();
-
-			//eeprom_update_word(&state1_i, i);
-			//eeprom_update_word(&state1_j, j);
-			//eeprom_update_word(&state1_k, k);
-			//eeprom_update_byte(&state1_l, l);
-			//eeprom_update_byte(&state1_save, state);
-
-			state = 0;
-			break;
-		}
 		if (Reset) {
-			state = 0;
-			break;
-		}
-		if (Reset) {
-			Reset = 0;
 			state = 0;
 			break;
 		}
 		if (pause) {
 			noTone3();
-			saveState = state;
+			eeprom_update_word(&state1_i, i);
+			eeprom_update_word(&state1_j, j);
+			eeprom_update_word(&state1_k, k);
+			eeprom_update_byte(&state1_l, l);
+			eeprom_update_byte(&state1_save, state);
 			state = pause1;
 			break;
 		}
@@ -709,6 +676,7 @@ int tickSM_play1(int state) {
 			} else {
 				l--;
 			}
+			globalL = l;
 			state = play1;
 			break;
 		} else if (prev){
@@ -722,6 +690,7 @@ int tickSM_play1(int state) {
 			if (l == songs) {
 				l = 0;
 			}
+			globalL = l;
 			state = play1;
 			break;
 		}
@@ -736,25 +705,17 @@ int tickSM_play1(int state) {
 		break;
 
 		case rest1:
-		if (powerOff) {
-			noTone3();
-
-			//eeprom_update_word(&state1_i, i);
-			//eeprom_update_word(&state1_j, j);
-			//eeprom_update_word(&state1_k, k);
-			//eeprom_update_byte(&state1_l, l);
-			//eeprom_update_byte(&state1_save, state);
-
-			state = 0;
-			break;
-		}
 		if (Reset) {
 			state = 0;
 			break;
 		}
 		if (pause) {
 			noTone3();
-			saveState = state;
+			eeprom_update_word(&state1_i, i);
+			eeprom_update_word(&state1_j, j);
+			eeprom_update_word(&state1_k, k);
+			eeprom_update_byte(&state1_l, l);
+			eeprom_update_byte(&state1_save, state);
 			state = pause1;
 			break;
 		}
@@ -765,6 +726,7 @@ int tickSM_play1(int state) {
 			} else {
 				l--;
 			}
+			globalL = l;
 			state = play1;
 			break;
 		} else if (prev){
@@ -778,6 +740,7 @@ int tickSM_play1(int state) {
 			if (l == songs) {
 				l = 0;
 			}
+			globalL = l;
 			state = play1;
 			break;
 		}
@@ -792,18 +755,6 @@ int tickSM_play1(int state) {
 		break;
 
 		case pause1:
-		if (powerOff) {
-			noTone3();
-
-			//eeprom_update_word(&state1_i, i);
-			//eeprom_update_word(&state1_j, j);
-			//eeprom_update_word(&state1_k, k);
-			//eeprom_update_byte(&state1_l, l);
-			//eeprom_update_byte(&state1_save, state);
-
-			state = 0;
-			break;
-		}
 		if (Reset) {
 			state = 0;
 			break;
@@ -815,6 +766,7 @@ int tickSM_play1(int state) {
 			} else {
 				l--;
 			}
+			globalL = l;
 			pause = 0;
 			state = play1;
 			break;
@@ -830,6 +782,7 @@ int tickSM_play1(int state) {
 			if (l == songs) {
 				l = 0;
 			}
+			globalL = l;
 			pause = 0;
 			state = play1;
 			break;
@@ -837,10 +790,10 @@ int tickSM_play1(int state) {
 		if (pause) {
 			state = pause1;
 			} else {
-			if (saveState == length1) {
+			if (eeprom_read_byte(&state1_save) == length1) {
 				tone3(Melody[l][i][j]);
 			}
-			state = saveState;
+			state = eeprom_read_byte(&state1_save);
 		}
 		break;
 			
@@ -852,31 +805,18 @@ enum States2 {init2, wait2, play2, length2, rest2, pause2};
 int tickSM_play2(int state) {
 	static unsigned int i, j, k;
 	static unsigned char l;
-	static unsigned char saveState;
 	switch(state) {
 		case init2:
-		state = eeprom_read_byte(&state2_save);
+		state = pause2;
 		i = eeprom_read_word(&state2_i);
 		j = eeprom_read_word(&state2_j);
 		k = eeprom_read_word(&state2_k);
-		l = eeprom_read_byte(&state2_l);
-		Reset = 0;
+		l = globalL;
 		noTone1();
 		break;
 
 		case wait2:
-		if (powerOff) {
-			noTone1();
-
-			//eeprom_update_word(&state2_i, i);
-			//eeprom_update_word(&state2_j, j);
-			//eeprom_update_word(&state2_k, k);
-			//eeprom_update_byte(&state2_l, l);
-			//eeprom_update_byte(&state2_save, state);
-
-			state = 0;
-			break;
-		}
+			l = globalL;
 		if (Reset) {
 			state = 0;
 			break;
@@ -889,35 +829,22 @@ int tickSM_play2(int state) {
 		break;
 
 		case play2:
-		if (powerOff) {
-			noTone1();
-
-			//eeprom_update_word(&state2_i, i);
-			//eeprom_update_word(&state2_j, j);
-			//eeprom_update_word(&state2_k, k);
-			//eeprom_update_byte(&state2_l, l);
-			//eeprom_update_byte(&state2_save, state);
-
-			state = 0;
-			break;
-		}
 		if (Reset) {
 			state = 0;
 			break;
 		}
 		if (pause) {
 			noTone1();
-			saveState = state;
+			eeprom_update_word(&state2_i, i);
+			eeprom_update_word(&state2_j, j);
+			eeprom_update_word(&state2_k, k);
+			eeprom_update_byte(&state2_save, state);
 			state = pause2;
 			break;
 		}
 		if (prev && (i == 0)) {
 			i = 0; j = 0; k = 0;
-			if (l == 0) {
-				l = songs - 1;
-			} else {
-				l--;
-			}
+			l = globalL;
 			state = play2;
 			break;
 		} else if (prev){
@@ -927,10 +854,7 @@ int tickSM_play2(int state) {
 		}
 		if (next) {
 			i = 0; j = 0; k = 0;
-			l++;
-			if (l == songs) {
-				l = 0;
-			}
+			l = globalL;
 			state = play2;
 			break;
 		}
@@ -941,10 +865,7 @@ int tickSM_play2(int state) {
 		if (i == rows[l]) {
 			state = wait2;
 			i = 0; j = 0; k = 0;
-			l++;
-			if (l == songs) {
-				l = 0;
-			}
+			l = globalL;
 			break;
 		}
 		tone1(Harmony[l][i][j]);
@@ -952,35 +873,22 @@ int tickSM_play2(int state) {
 		break;
 
 		case length2:
-		if (powerOff) {
-			noTone1();
-
-			//eeprom_update_word(&state2_i, i);
-			//eeprom_update_word(&state2_j, j);
-			//eeprom_update_word(&state2_k, k);
-			//eeprom_update_byte(&state2_l, l);
-			//eeprom_update_byte(&state2_save, state);
-
-			state = 0;
-			break;
-		}
 		if (Reset) {
 			state = 0;
 			break;
 		}
 		if (pause) {
 			noTone1();
-			saveState = state;
+			eeprom_update_word(&state2_i, i);
+			eeprom_update_word(&state2_j, j);
+			eeprom_update_word(&state2_k, k);
+			eeprom_update_byte(&state2_save, state);
 			state = pause2;
 			break;
 		}
 		if (prev && (i == 0)) {
 			i = 0; j = 0; k = 0;
-			if (l == 0) {
-				l = songs - 1;
-			} else {
-				l--;
-			}
+			l = globalL;
 			state = play2;
 			break;
 		} else if (prev){
@@ -990,10 +898,7 @@ int tickSM_play2(int state) {
 		}
 		if (next) {
 			i = 0; j = 0; k = 0;
-			l++;
-			if (l == songs) {
-				l = 0;
-			}
+			l = globalL;
 			state = play2;
 			break;
 		}
@@ -1008,35 +913,22 @@ int tickSM_play2(int state) {
 		break;
 
 		case rest2:
-		if (powerOff) {
-			noTone1();
-
-			//eeprom_update_word(&state2_i, i);
-			//eeprom_update_word(&state2_j, j);
-			//eeprom_update_word(&state2_k, k);
-			//eeprom_update_byte(&state2_l, l);
-			//eeprom_update_byte(&state2_save, state);
-
-			state = 0;
-			break;
-		}
 		if (Reset) {
 			state = 0;
 			break;
 		}
 		if (pause) {
 			noTone1();
-			saveState = state;
+			eeprom_update_word(&state2_i, i);
+			eeprom_update_word(&state2_j, j);
+			eeprom_update_word(&state2_k, k);
+			eeprom_update_byte(&state2_save, state);
 			state = pause2;
 			break;
 		}
 		if (prev && (i == 0)) {
 			i = 0; j = 0; k = 0;
-			if (l == 0) {
-				l = songs - 1;
-			} else {
-				l--;
-			}
+			l = globalL;
 			state = play2;
 			break;
 		} else if (prev){
@@ -1046,10 +938,7 @@ int tickSM_play2(int state) {
 		}
 		if (next) {
 			i = 0; j = 0; k = 0;
-			l++;
-			if (l == songs) {
-				l = 0;
-			}
+			l = globalL;
 			state = play2;
 			break;
 		}
@@ -1064,18 +953,6 @@ int tickSM_play2(int state) {
 		break;
 
 		case pause2:
-		if (powerOff) {
-			noTone1();
-
-			//eeprom_update_word(&state2_i, i);
-			//eeprom_update_word(&state2_j, j);
-			//eeprom_update_word(&state2_k, k);
-			//eeprom_update_byte(&state2_l, l);
-			//eeprom_update_byte(&state2_save, state);
-
-			state = 0;
-			break;
-		}
 		if (Reset) {
 			state = 0;
 			break;
@@ -1083,19 +960,12 @@ int tickSM_play2(int state) {
 		if (melodyDone) {
 			state = wait2;
 			i = 0; j = 0; k = 0;
-			l++;
-			if (l == songs) {
-				l = 0;
-			}
+			l = globalL;
 			break;
 		}
 		if (prev && (i == 0)) {
 			i = 0; j = 0; k = 0;
-			if (l == 0) {
-				l = songs - 1;
-			} else {
-				l--;
-			}
+			l = globalL;
 			pause = 0;
 			state = play2;
 			break;
@@ -1107,10 +977,7 @@ int tickSM_play2(int state) {
 		}
 		if (next) {
 			i = 0; j = 0; k = 0;
-			l++;
-			if (l == songs) {
-				l = 0;
-			}
+			l = globalL;
 			pause = 0;
 			state = play2;
 			break;
@@ -1118,10 +985,10 @@ int tickSM_play2(int state) {
 		if (pause) {
 			state = pause2;
 			} else {
-			if (saveState == length2) {
+			if (eeprom_read_byte(&state2_save) == length2) {
 				tone1(Harmony[l][i][j]);
 			}
-			state = saveState;
+			state = eeprom_read_byte(&state2_save);
 		}
 		break;
 	}
@@ -1132,31 +999,18 @@ enum States3 {init3, wait3, play3, length3, rest3, pause3};
 int tickSM_play3(int state) {
 	static unsigned int i, j, k;
 	static unsigned char l;
-	static unsigned char saveState;
 	switch(state) {
 		case init3:
-		state = eeprom_read_byte(&state3_save);
+		state = pause3;
 		i = eeprom_read_word(&state3_i);
 		j = eeprom_read_word(&state3_j);
 		k = eeprom_read_word(&state3_k);
-		l = eeprom_read_byte(&state3_l);
-		Reset = 0;
+		l = globalL;
 		noTone0();
 		break;
 
 		case wait3:
-		if (powerOff) {
-			noTone0();
-
-			//eeprom_update_word(&state3_i, i);
-			//eeprom_update_word(&state3_j, j);
-			//eeprom_update_word(&state3_k, k);
-			//eeprom_update_byte(&state3_l, l);
-			//eeprom_update_byte(&state3_save, state);
-
-			state = 0;
-			break;
-		}
+		l = globalL;
 		if (Reset) {
 			state = 0;
 			break;
@@ -1169,31 +1023,22 @@ int tickSM_play3(int state) {
 		break;
 
 		case play3:
-		if (powerOff) {
-			noTone0();
-
-			//eeprom_update_word(&state3_i, i);
-			//eeprom_update_word(&state3_j, j);
-			//eeprom_update_word(&state3_k, k);
-			//eeprom_update_byte(&state3_l, l);
-			//eeprom_update_byte(&state3_save, state);
-
+		if (Reset) {
 			state = 0;
 			break;
 		}
 		if (pause) {
 			noTone0();
-			saveState = state;
+			eeprom_update_word(&state3_i, i);
+			eeprom_update_word(&state3_j, j);
+			eeprom_update_word(&state3_k, k);
+			eeprom_update_byte(&state3_save, state);
 			state = pause3;
 			break;
 		}
 		if (prev && (i == 0)) {
 			i = 0; j = 0; k = 0;
-			if (l == 0) {
-				l = songs - 1;
-			} else {
-				l--;
-			}
+			l = globalL;
 			prev = 0;
 			state = play3;
 			break;
@@ -1205,10 +1050,7 @@ int tickSM_play3(int state) {
 		}
 		if (next) {
 			i = 0; j = 0; k = 0;
-			l++;
-			if (l == songs) {
-				l = 0;
-			}
+			l = globalL;
 			next = 0;
 			state = play3;
 			break;
@@ -1220,10 +1062,7 @@ int tickSM_play3(int state) {
 		if (i == rows[l]) {
 			state = wait3;
 			i = 0; j = 0; k = 0;
-			l++;
-			if (l == songs) {
-				l = 0;
-			}
+			l = globalL;
 			break;
 		}
 		tone0(Bass[l][i][j]);
@@ -1231,35 +1070,22 @@ int tickSM_play3(int state) {
 		break;
 
 		case length3:
-		if (powerOff) {
-			noTone0();
-
-			//eeprom_update_word(&state3_i, i);
-			//eeprom_update_word(&state3_j, j);
-			//eeprom_update_word(&state3_k, k);
-			//eeprom_update_byte(&state3_l, l);
-			//eeprom_update_byte(&state3_save, state);
-
-			state = 0;
-			break;
-		}
 		if (Reset) {
 			state = 0;
 			break;
 		}
 		if (pause) {
 			noTone0();
-			saveState = state;
+			eeprom_update_word(&state3_i, i);
+			eeprom_update_word(&state3_j, j);
+			eeprom_update_word(&state3_k, k);
+			eeprom_update_byte(&state3_save, state);
 			state = pause3;
 			break;
 		}
 		if (prev && (i == 0)) {
 			i = 0; j = 0; k = 0;
-			if (l == 0) {
-				l = songs - 1;
-			} else {
-				l--;
-			}
+			l = globalL;
 			prev = 0;
 			state = play3;
 			break;
@@ -1271,10 +1097,7 @@ int tickSM_play3(int state) {
 		}
 		if (next) {
 			i = 0; j = 0; k = 0;
-			l++;
-			if (l == songs) {
-				l = 0;
-			}
+			l = globalL;
 			next = 0;
 			state = play3;
 			break;
@@ -1290,35 +1113,22 @@ int tickSM_play3(int state) {
 		break;
 
 		case rest3:
-		if (powerOff) {
-			noTone0();
-
-			//eeprom_update_word(&state3_i, i);
-			//eeprom_update_word(&state3_j, j);
-			//eeprom_update_word(&state3_k, k);
-			//eeprom_update_byte(&state3_l, l);
-			//eeprom_update_byte(&state3_save, state);
-
-			state = 0;
-			break;
-		}
 		if (Reset) {
 			state = 0;
 			break;
 		}
 		if (pause) {
 			noTone0();
-			saveState = state;
+			eeprom_update_word(&state3_i, i);
+			eeprom_update_word(&state3_j, j);
+			eeprom_update_word(&state3_k, k);
+			eeprom_update_byte(&state3_save, state);
 			state = pause3;
 			break;
 		}
 		if (prev && (i == 0)) {
 			i = 0; j = 0; k = 0;
-			if (l == 0) {
-				l = songs - 1;
-			} else {
-				l--;
-			}
+			l = globalL;
 			prev = 0;
 			state = play3;
 			break;
@@ -1330,10 +1140,7 @@ int tickSM_play3(int state) {
 		}
 		if (next) {
 			i = 0; j = 0; k = 0;
-			l++;
-			if (l == songs) {
-				l = 0;
-			}
+			l = globalL;
 			next = 0;
 			state = play3;
 			break;
@@ -1349,18 +1156,6 @@ int tickSM_play3(int state) {
 		break;
 
 		case pause3:
-		if (powerOff) {
-			noTone0();
-
-			//eeprom_update_word(&state3_i, i);
-			//eeprom_update_word(&state3_j, j);
-			//eeprom_update_word(&state3_k, k);
-			//eeprom_update_byte(&state3_l, l);
-			//eeprom_update_byte(&state3_save, state);
-
-			state = 0;
-			break;
-		}
 		if (Reset) {
 			state = 0;
 			break;
@@ -1368,19 +1163,12 @@ int tickSM_play3(int state) {
 		if (melodyDone) {
 			state = wait3;
 			i = 0; j = 0; k = 0;
-			l++;
-			if (l == songs) {
-				l = 0;
-			}
+			l = globalL;
 			break;
 		}
 		if (prev && (i == 0)) {
 			i = 0; j = 0; k = 0;
-			if (l == 0) {
-				l = songs - 1;
-			} else {
-				l--;
-			}
+			l = globalL;
 			prev = 0;
 			pause = 0;
 			state = play3;
@@ -1394,10 +1182,7 @@ int tickSM_play3(int state) {
 		}
 		if (next) {
 			i = 0; j = 0; k = 0;
-			l++;
-			if (l == songs) {
-				l = 0;
-			}
+			l = globalL;
 			next = 0;
 			pause = 0;
 			state = play3;
@@ -1406,10 +1191,10 @@ int tickSM_play3(int state) {
 		if (pause) {
 			state = pause3;
 			} else {
-			if (saveState == length3) {
+			if (eeprom_read_byte(&state3_save) == length3) {
 				tone0(Bass[l][i][j]);
 			}
-			state = saveState;
+			state = eeprom_read_byte(&state3_save);
 		}
 		break;
 	}
@@ -1453,7 +1238,7 @@ int remote_tick(int state) {
 		case receive:
 			remote = USART_Receive();
 			if (remote == Power) {
-				powerOff = 1;
+				pause = 1;
 			}
 			state = receive;
 		break;
@@ -1505,28 +1290,31 @@ int reset_tick(int state) {
 	switch (state) {
 		case reset:
 			if (remote == Eq) {
-				eeprom_write_word(&state1_i, (int)0);
+				LCD_ClearScreen();
+
+				eeprom_write_word(&state1_i, 0);
 				eeprom_write_word(&state1_j, 0);
 				eeprom_write_word(&state1_k, 0);
 				eeprom_write_byte(&state1_l, 0);
+
+				LCD_DisplayString(3, "Resetting...");
 				
 				eeprom_write_word(&state2_i, 0);
 				eeprom_write_word(&state2_j, 0);
 				eeprom_write_word(&state2_k, 0);
-				eeprom_write_byte(&state2_l, 0);
 				
 				eeprom_write_word(&state3_i, 0);
 				eeprom_write_word(&state3_j, 0);
 				eeprom_write_word(&state3_k, 0);
-				eeprom_write_byte(&state3_l, 0);
 				
-				eeprom_write_byte(&state1_save, 1);
-				eeprom_write_byte(&state2_save, 1);
-				eeprom_write_byte(&state3_save, 1);
+				eeprom_write_byte(&state1_save, 2);
+				eeprom_write_byte(&state2_save, 2);
+				eeprom_write_byte(&state3_save, 2);
 
 				pause = 1;
 				Reset = 1;
 
+				LCD_ClearScreen();
 			}
 			state = reset;
 		break;

@@ -1,7 +1,7 @@
 /*	Author: kchen161
  *      Partner(s) Name: Kevin Chen
  *	Lab Section: 23
- *	Assignment: Final Project
+ *	Assignment: Final Project, relay microcontroller
  *	Exercise Description: [optional - include for your own benefit]
  *
  *	I acknowledge all content contained herein, excluding template or example
@@ -126,6 +126,14 @@ enum transmit_states {transmit};
 int transmit_tick(int state) {
 	switch (state) {
 		case transmit:
+			if (remote == Power) {
+				USART_Transmit(remote);
+				for (unsigned short i = 0; i < 300; i++) {
+					while(!TimerFlag){};
+					TimerFlag = 0;
+				}
+				break;
+			}
 			if (PORTD & 0x20) {
 				UCSR0B |= (1<<TXEN0);
 				USART_Transmit(remote);
@@ -178,16 +186,17 @@ int main(void) {
 	task1.period = 50;
 	task1.elapsedTime = task1.period;
 	task1.TickFct = &remote_tick;
-	
+
 	task2.state = 0;
 	task2.period = 50;
 	task2.elapsedTime = task2.period;
-	task2.TickFct = &relay_tick;
-
+	task2.TickFct = &transmit_tick;
+	
 	task3.state = 0;
 	task3.period = 50;
 	task3.elapsedTime = task3.period;
-	task3.TickFct = &transmit_tick;
+	task3.TickFct = &relay_tick;
+
 
 	#endif
 
