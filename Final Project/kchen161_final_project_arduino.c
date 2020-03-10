@@ -1,3 +1,13 @@
+/*
+ * The IR remote functions are from the following github repository:
+ * https://github.com/z3t0/Arduino-IRremote.git
+ *
+ * I gained my understanding of the IRremote library through the code from the following user:
+ * https://github.com/chauhannaman98/ArduinoCodes/blob/master/Finding-IR-Codes/sketch/sketch.ino
+ * and his post on the following website:
+ * https://www.hackster.io/techmirtz/finding-the-ir-codes-of-any-ir-remote-using-arduino-c7a852
+*/
+
 #include <boarddefs.h>
 #include <IRremote.h>
 #include <IRremoteInt.h>
