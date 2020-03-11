@@ -1306,6 +1306,8 @@ int reset_tick(int state) {
 				eeprom_write_word(&state3_i, 0);
 				eeprom_write_word(&state3_j, 0);
 				eeprom_write_word(&state3_k, 0);
+
+				LCD_ClearScreen();
 				
 				eeprom_write_byte(&state1_save, 2);
 				eeprom_write_byte(&state2_save, 2);
@@ -1313,8 +1315,8 @@ int reset_tick(int state) {
 
 				pause = 1;
 				Reset = 1;
-
-				LCD_ClearScreen();
+				
+				LCD_DisplayString(5, "Paused");
 			}
 			state = reset;
 		break;
